@@ -6,7 +6,8 @@ import {
   Modal,
   Fade,
   Backdrop,
-  Typography,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import { useState } from "react";
 const style = {
@@ -31,21 +32,36 @@ export default function Form({ formOpen, setFormOpen }) {
   const handleTabChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
   };
-
   const handleClose = () => {
     setFormOpen(false);
   };
 
+  const [alert, setAlert] = useState(false);
+  const [success ,setSuccess] =useState(false)
+  const [msg,setMsg] =useState('')
+
+  const alertClose = () => {
+    setAlert(false);
+    setSuccess(false)
+  };
+
+
   return (
-    <div>
+    <>
+    <Snackbar open={success}  autoHideDuration={4000} anchorOrigin={{vertical:"top",horizontal:"center"}} onClose={alertClose}>
+        <Alert onClose={alertClose} severity="success" sx={{ width: "100%" }}>
+           {msg}
+        </Alert>
+      </Snackbar>
+      <Snackbar open={alert}  autoHideDuration={4000} anchorOrigin={{vertical:"top",horizontal:"center"}} onClose={alertClose}>
+        <Alert onClose={alertClose} severity="error" sx={{ width: "100%" }}>
+           {msg}
+        </Alert>
+      </Snackbar>
       <Modal
         open={formOpen}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Fade in={formOpen}>
           <Box sx={style}>
@@ -55,14 +71,14 @@ export default function Form({ formOpen, setFormOpen }) {
             </Tabs>
             
               {tabIndex === 0 && (
-                <Login/>
+                <Login setAlert={setAlert} setMsg={setMsg} setSuccess={setSuccess} setFormOpen={setFormOpen}/>
               )}
               {tabIndex === 1 && (
-                <Signup/>
+                <Signup setAlert={setAlert} setMsg={setMsg} setSuccess={setSuccess} setFormOpen={setFormOpen}/>
               )}
           </Box>
         </Fade>
       </Modal>
-    </div>
+                </>
   );
 }

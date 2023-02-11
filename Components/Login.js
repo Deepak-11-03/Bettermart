@@ -16,15 +16,16 @@ import { useForm } from "react-hook-form";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import styleshit from "../styles/Home.module.css";
-
+import { useRouter } from "next/router";
+import cookies from "js-cookie";
 const email = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/;
 
-export default function Login({ open, setOpen }) {
+export default function Login({setAlert,setMsg,setSuccess,setFormOpen,fetchCart}) {
+  const router =useRouter()
   const {
     register,
     handleSubmit,
     reset,
-    getValues,
     formState: { errors },
   } = useForm();
 
@@ -33,33 +34,16 @@ export default function Login({ open, setOpen }) {
     password: "",
   });
 
-//   const [signup, setSignup] = useState(false);
-//   const signupFormOpen = () => {
-//     reset();
-//     setSignup(true);
-//   };
-
   const handleInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleClose = () => {
-    // reset();
-    setOpen(false);
-  };
-  const [alert, setAlert] = React.useState(false);
-  const alertClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setAlert(false);
-  };
 
 
   const onSubmit = async (data) => {
-    let api = await fetch("http://localhost:3000/api/login", {
+    let api = await fetch("http://localhost:3000/api/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,14 +51,25 @@ export default function Login({ open, setOpen }) {
       body: JSON.stringify(data),
     });
     api = await api.json();
-    if (api) {
-      setAlert(true);
-      handleClose();
+    if (api.status === true) {
+      reset()
+      setMsg(api.msg);
+      setSuccess(true);
+      localStorage.setItem('name' ,api.name)
+      cookies.set('token',api.token)
+      setTimeout(() => {
+        setFormOpen(false)
+        router.push('/')
+      }, 1000);
+    }
+    else{
+      setMsg(api.msg)
+      setAlert(true)
     }
   };
 
   return (
-    <div style={{marginTop:"50px"}}>
+    <div style={{marginTop:"40px"}}>
               <Typography textAlign="center" variant="h5" padding="5px">
                 Welcome Back !
               </Typography>
@@ -146,11 +141,6 @@ export default function Login({ open, setOpen }) {
               </form>
               <br/>
               <Button > Forget password ?</Button>
-      <Snackbar open={alert} autoHideDuration={6000} onClose={alertClose}>
-        <Alert onClose={alertClose} severity="success" sx={{ width: "100%" }}>
-          This is a success message!
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-
+import {useRouter} from "next/router";
 import {
   TextField,
   InputAdornment,
@@ -13,13 +13,15 @@ import {
   FormHelperText,
   Snackbar,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import styleshit from "../styles/Home.module.css";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 
-export default function Signup({setSignup}) {
+export default function Signup({setMsg,setAlert,setSuccess,setFormOpen}) {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -33,12 +35,7 @@ export default function Signup({setSignup}) {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const alertClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setAlert(false);
-  };
+ 
 
   const [user, setUser] = React.useState({
     firstName: "",
@@ -56,18 +53,15 @@ export default function Signup({setSignup}) {
     setUser({ ...user, [name]: value });
   };
 
-  const handleClose = () => {
-    setSignup(false);
-  };
 
-  const [alert, setAlert] = React.useState(false);
+ 
 
   const email = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/;
   const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
   const phone = /^[789]\d{9}$/;
 
   const onSubmit = async (data) => {
-    let api = await fetch("http://localhost:3000/api/signup", {
+    let api = await fetch("http://localhost:3000/api/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,9 +69,17 @@ export default function Signup({setSignup}) {
       body: JSON.stringify(data),
     });
     api = await api.json();
-    if (api) {
-      setAlert(true);
-      handleClose();
+    if (api.status == true) {
+      setMsg(api.msg)
+      reset()
+      setSuccess(true);
+      setTimeout(() => {
+        setFormOpen(false);
+      }, 1500);
+    }
+    else{
+      setMsg(api.msg)
+      setAlert(true)
     }
   };
 
@@ -90,6 +92,7 @@ export default function Signup({setSignup}) {
           <br />
           <TextField
             type="text"
+            fullWidth
             label="FirstName *"
             variant="outlined"
             size="small"
@@ -224,11 +227,7 @@ export default function Signup({setSignup}) {
           </Button>
         </form>
         <br />
-      <Snackbar open={alert} autoHideDuration={6000} onClose={alertClose}>
-        <Alert onClose={alertClose} severity="success" sx={{ width: "100%" }}>
-          This is a success message!
-        </Alert>
-      </Snackbar>
+      
     </div>
   );
 }

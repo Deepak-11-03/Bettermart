@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default function cart() {
-
-    
+function Footer() {
   return (
     <div>
-      
+      this if footer
     </div>
   )
 }
+
+export default Footer

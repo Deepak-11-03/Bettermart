@@ -12,10 +12,9 @@ const productSchema = new mongoose.Schema({
     description: {
         type:String,
         required:true,
-        unique:true
     },
     price:  {
-        type:String,
+        type:Number,
         required:true,
     },
     discountPercentage:{

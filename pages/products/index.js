@@ -1,19 +1,20 @@
 import Head from "next/head";
 // import { useState, useEffect } from "react";
-import style from "../styles/Home.module.css";
+import style from '../../styles/Home.module.css'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { useRouter } from "next/router";
 import Grid from '@mui/material/Grid';
 import { Card,CardActionArea,CardContent,CardMedia, Chip, Paper, Typography } from "@mui/material";
+import Footer from "../../Components/Footer";
 
 
 export default function Home({ data }) {
 
 
-// const router = useRouter()
-//   function detailed(id){
-//     router.push(`/products/${id}`)
-//   }
+const router = useRouter()
+  function detailed(id){
+    router.push(`/products/${id}`)
+  }
 
   return (
     <>
@@ -24,25 +25,23 @@ export default function Home({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={style.main}>
-
-      <h2>this is index page</h2>
-        {/* <Grid
+        <Grid
           container
           spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
+          // columns={{ xs: 4, sm: 8, md: 12 }}
           sx={{padding:"15px"}}
         >
          {data.products.map((product) => {
           return(
-          <Grid  item xs={12} sm={4} md={4} key={product._id}  >
+          <Grid  item xs={6} sm={4} md={3} key={product._id}  >
           <Paper>
-            <Card sx={{minHeight:"45vh",justifyContent:"center"}} onClick={()=>detailed(product._id)} >
+            <Card sx={{height:"40vh",justifyContent:"center"}} onClick={()=>detailed(product._id)} >
               <CardActionArea sx={{height:"100%"}}>
                 <CardMedia sx={{objectFit:"contain"}} component="img"
-          height="250px" image={product.thumbnail} alt={product.title}/>
+          height="150px" image={product.thumbnail} alt={product.title}/>
           <CardContent>
           
-            <Typography variant="h5" color="initial">{product.title}</Typography>
+            <Typography variant="subtitle1" color="initial" noWrap={true}>{product.title}</Typography>
             <Typography variant="h5" color="initial"><CurrencyRupeeIcon/>{Math.abs(product.price-(product.price/product.discountPercentage)).toFixed(0)}</Typography>          
             <Chip label="Free Delivery" size="small" />
           </CardContent>
@@ -52,17 +51,17 @@ export default function Home({ data }) {
             </Paper>
           </Grid>
         )})}
-        </Grid> */}
-       
+        </Grid>
       </main>
+      
     </>
   );
 }
 
-// export async function getServerSideProps({page}) {
-//   const res = await fetch(`http://localhost:3000/api/products`);
-//   const data =  await res.json();
-//   return {
-//     props: { data },
-//   };
-// }
+export async function getServerSideProps({page}) {
+  const res = await fetch(`http://localhost:3000/api/products`);
+  const data =  await res.json();
+  return {
+    props: { data },
+  };
+}

@@ -10,9 +10,7 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
-html {
-  font-size: 92.5%; 
-}
+
 
 /* body {
  
@@ -23,8 +21,8 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
-}
+} */
