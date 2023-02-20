@@ -9,7 +9,7 @@ const router = useRouter()
             router.back()
         }
     })
-    if(!user.value){
+    if(!user){
         return(
             <>
 

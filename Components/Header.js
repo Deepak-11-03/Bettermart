@@ -24,6 +24,8 @@ import {
   useTheme,
   InputAdornment,
   InputBase,
+  ListItemButton,
+  ListItemIcon,
 } from "@mui/material";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
@@ -48,41 +50,64 @@ var pages = [
   "lighting",
   "skincare",
 ];
+import { useSelector, useDispatch } from "react-redux";
+import { getCart } from "../redux/actions/cartAction";
+import { CLEAR_CART } from "../redux/constants/cartContant";
 
-export default function Header({ user, setUser, setCartItems, totalItems }) {
-  const [anchorEl, setAnchorEl] = useState(null);
+
+export default function Header({ user }) {
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const [formOpen, setFormOpen] = useState(false);
+  const dispatch = useDispatch()
+
+  const { cart } = useSelector((state) => state.cart);
 
   const isCurrentPath = router.asPath;
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleMenuOpen = () => {
+    setOpen(true);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleMenuClose = () => {
+    setOpen(false);
   };
 
   const logout = () => {
     localStorage.clear();
-    handleClose();
+    handleMenuClose();
+    dispatch({type:CLEAR_CART})
     cookie.remove("token");
-    // setCartItems({})
-    setUser({ value: null });
     router.push("/");
   };
 
   const getUserProfile = () => {
-    setAnchorEl(null);
+    setOpen(false);
     router.push(`/user/profile`);
   };
+  const getUserOrder = () => {
+    setOpen(false);
+    router.push(`/user/order`);
+  };
+
+
+  const userMenu =[
+    {icon:<AccountBoxIcon/> , name:"My Profile" , action:getUserProfile},
+    {icon:<Inventory2OutlinedIcon/> , name:"Orders",action:getUserOrder},
+    {icon:<LogoutRoundedIcon/> ,name:"Logout",action:logout},
+  ]
+
+
+
   return (
     <>
       <Box sx={{ width: "100%" }}>
         <AppBar position="fixed" sx={{ background: "white" }}>
-          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }} variant="dense">
+          <Toolbar
+            sx={{ display: "flex", justifyContent: "space-between" }}
+            variant="dense"
+          >
             <Link href="/">
               <Image
                 src="/logo.png"
@@ -91,13 +116,6 @@ export default function Header({ user, setUser, setCartItems, totalItems }) {
                 height={48}
               />
             </Link>
-            {/* <Paper elevation={4} sx={{ display:"flex",alignItems:"center",padding:"0 6px", width:"25rem",borderRadius:"5px" ,display:isMatch && 'none'}}>
-            <InputBase placeholder="search ..." sx={{ p: '0 10px',width:"88%" }} />
-            <IconButton>
-            <SearchIcon color="primary"/>
-            </IconButton>
-            </Paper>
-             */}
             <List
               sx={{ padding: 0 }}
               className={isMatch ? styleshit.sidebar : styleshit.menu}
@@ -117,11 +135,11 @@ export default function Header({ user, setUser, setCartItems, totalItems }) {
                       color: "black",
                       borderBottom:
                         isCurrentPath === "/products"
-                          ? "1px solid red"
+                          ? "2px solid #b922fa"
                           : "none",
                     }}
                   >
-                     <span style={{fontSize:"15px"}}>All Products</span>
+                    <span style={{ fontSize: "15px" }}>All Products</span>
                   </ListItemText>
                 </Link>
               </ListItem>
@@ -142,67 +160,62 @@ export default function Header({ user, setUser, setCartItems, totalItems }) {
                         color: "black",
                         borderBottom:
                           isCurrentPath === `/products/category/${pages[index]}`
-                            ? "1px solid red"
+                            ? "2px solid #b922fa"
                             : "none",
                       }}
                     >
-                      <span style={{fontSize:"15px"}}>{item}</span>
+                      <span style={{ fontSize: "15px" }}>{item}</span>
                     </ListItemText>
                   </Link>
                 </ListItem>
               ))}
             </List>
             <Toolbar sx={{ gap: "10px" }} variant="dense">
-              {user.value ? (
-                <Button onClick={handleMenu}>
-                  <PersonOutlineIcon
-                    sx={{ fontSize: "28px", color: "black" }}
-                  />
-                </Button>
-              ) : (
+
+              {/* user login menu */}
+
+              {!user ? (
                 <Button
                   variant="contained"
-                  onClick={() => setFormOpen(true)}
+                  onClick={() => router.push("/user/login")}
                   sx={{ width: "6rem" }}
+                  className={styleshit.button}
                 >
                   Login
                 </Button>
+              ) : (
+                <Box
+                  onMouseEnter={handleMenuOpen}
+                  onMouseLeave={handleMenuClose}
+                >
+                  <PersonOutlineIcon
+                    sx={{ fontSize: "28px", color: "black" ,cursor:"pointer"}}
+                  />
+                  {open && (
+                    <List style={{ position: "absolute",right:"0",top:"2.5rem", width:"9rem", background: "white",border:"1px solid black",padding:"0" }}>
+                    {userMenu.map((list,index)=>{
+                      return(
+                        <>
+                        <ListItemButton onClick={list.action} key={index}>
+                        <ListItemIcon sx={{minWidth:"35px"}}>{list.icon}</ListItemIcon>
+                        <ListItemText primary={list.name} sx={{color:"black"}} />
+                      </ListItemButton>
+                      <Divider/>
+                        </>
+                     
+                      )
+                    })}
+                    </List>               
+                  )}
+                </Box>
               )}
-              <IconButton onClick={() => router.push("/user/cart")}>
-                <Badge badgeContent={totalItems} color="secondary">
+              <IconButton onClick={() => router.push("/cart")}>
+                <Badge badgeContent={ cart && cart.totalItems} color="secondary">
                   <ShoppingCartIcon
                     sx={{ fontSize: "1.6rem", color: "black" }}
                   />
                 </Badge>
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                sx={{ marginTop: "3rem" }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={getUserProfile}>
-                  {" "}
-                  <AccountBoxIcon sx={{ marginRight: "10px" }} /> My Profile{" "}
-                </MenuItem>
-                <MenuItem>
-                  {" "}
-                  <Inventory2OutlinedIcon sx={{ marginRight: "10px" }} /> My
-                  orders{" "}
-                </MenuItem>
-                <MenuItem onClick={logout}>
-                  <LogoutRoundedIcon sx={{ marginRight: "10px" }} /> Logout
-                </MenuItem>
-              </Menu>
             </Toolbar>
           </Toolbar>
           <Divider />

@@ -7,6 +7,9 @@ import cartModel from "../../../models/cartModel";
 const handler =async(req,res)=>{
     try {
         const user = jwt.verify(req.headers.authorization , process.env.Jwt_Secret_key)
+        if(!user){
+            return res.status(401).send({msg:"something wrong"})
+          }
         let {qty,id} = req.body
         let userCart = await cartModel.findOne({userId:user.userId})
         let product = await productModel.findOne({_id:id})
@@ -19,7 +22,7 @@ const handler =async(req,res)=>{
                 cartData.items =  userCart.items
                 cartData.totalPrice = userCart.totalPrice + product.price
                 cartData.totalItems =  userCart.totalItems + 1
-                let cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true})
+                let cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true}).populate('items.productId').select({_id:0,userId:0});
                 return res.status(200).send({cart})
             }
             else if(qty < 1){
@@ -27,7 +30,7 @@ const handler =async(req,res)=>{
                 let totalItems = userCart.totalItems;
                 totalPrice -= product.price * cartProduct.quantity
                 totalItems -= cartProduct.quantity
-                let cart= await cartModel.findOneAndUpdate({userId: user.userId }, { $pull: { items: { productId: cartProduct.productId } }, $set: { totalPrice: totalPrice ,totalItems:totalItems }}, { new: true })
+                let cart= await cartModel.findOneAndUpdate({userId: user.userId }, { $pull: { items: { productId: cartProduct.productId } }, $set: { totalPrice: totalPrice ,totalItems:totalItems }}, { new: true }).populate('items.productId').select({_id:0,userId:0});
                  return res.status(200).send({cart})
             }
             else  {
@@ -35,7 +38,7 @@ const handler =async(req,res)=>{
                 cartData.items =  userCart.items
                 cartData.totalPrice = userCart.totalPrice - product.price
                 cartData.totalItems =  userCart.totalItems - 1
-                let cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true})
+                let cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true}).populate('items.productId').select({_id:0,userId:0});
                  return res.status(200).send({cart})
             }
 

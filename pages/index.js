@@ -5,15 +5,20 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { useRouter } from "next/router";
 import Grid from '@mui/material/Grid';
 import { Card,CardActionArea,CardContent,CardMedia, Chip, Paper, Typography } from "@mui/material";
+import { useSelector,useDispatch } from "react-redux";
+import { getCart } from "../redux/actions/cartAction";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { Box, Container } from "@mui/system";
 
+export default function Home({user }) {
+  const dispatch = useDispatch()
 
-export default function Home({ data }) {
-
-
-// const router = useRouter()
-//   function detailed(id){
-//     router.push(`/products/${id}`)
-//   }
+  // useEffect(()=>{
+  //   if(!Cookies.get('token')){
+  //     dispatch({type:CLEAR_CART})
+  //   }
+  // },[user.value])
 
   return (
     <>
@@ -23,46 +28,12 @@ export default function Home({ data }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={style.main}>
-
-      <h2>this is index page</h2>
-        {/* <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-          sx={{padding:"15px"}}
-        >
-         {data.products.map((product) => {
-          return(
-          <Grid  item xs={12} sm={4} md={4} key={product._id}  >
-          <Paper>
-            <Card sx={{minHeight:"45vh",justifyContent:"center"}} onClick={()=>detailed(product._id)} >
-              <CardActionArea sx={{height:"100%"}}>
-                <CardMedia sx={{objectFit:"contain"}} component="img"
-          height="250px" image={product.thumbnail} alt={product.title}/>
-          <CardContent>
-          
-            <Typography variant="h5" color="initial">{product.title}</Typography>
-            <Typography variant="h5" color="initial"><CurrencyRupeeIcon/>{Math.abs(product.price-(product.price/product.discountPercentage)).toFixed(0)}</Typography>          
-            <Chip label="Free Delivery" size="small" />
-          </CardContent>
-          
-              </CardActionArea>
-            </Card>
-            </Paper>
-          </Grid>
-        )})}
-        </Grid> */}
-       
+      <main className={style.main}>       
+            <Box sx={{maxWidth:"100%",height:"60vh"}}>
+            <Typography className={style.heading} variant="h1">Welcome to bettermart</Typography>
+              <img src="/pexels-karolina.jpg" alt="Photo by Ksenia Chernaya" style={{width: "100%",height:"100%", overflowY:"hidden"}}/>
+            </Box> 
       </main>
     </>
   );
 }
-
-// export async function getServerSideProps({page}) {
-//   const res = await fetch(`http://localhost:3000/api/products`);
-//   const data =  await res.json();
-//   return {
-//     props: { data },
-//   };
-// }

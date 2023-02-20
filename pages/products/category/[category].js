@@ -11,12 +11,19 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import Error from "../../_error";
 
-export default function Beauty({ product }) {
+export default function Beauty({ data }) {
   const router = useRouter();
-  function detailed(id) {
-    console.log(id);
-    router.push(`/products/${id}`);
+  function detailed(title) {
+    router.push(`/products/${title}`);
+  }
+
+  console.log(data)
+  if(data.status === false){
+    return (
+      <Error/>
+    )
   }
 
   return (
@@ -26,13 +33,13 @@ export default function Beauty({ product }) {
         spacing={{ xs: 2, md: 3 }}
         sx={{ padding: "15px" }}
       >
-        {product.map((post) => {
+        {data.products.map((post) => {
           return (
             <Grid item xs={6} sm={4} md={3} key={post._id}>
               <Paper>
                 <Card
                   sx={{ height: "40vh", justifyContent: "center" }}
-                  onClick={() => detailed(post._id)}
+                  onClick={() => detailed(post.title)}
                 >
                   <CardActionArea sx={{ height: "100%" }}>
                     <CardMedia
@@ -69,8 +76,8 @@ export async function getServerSideProps({ params: { category } }) {
   const res = await fetch(
     `http://localhost:3000/api/products/category/${category}`
   );
-  const product = await res.json();
+  const data = await res.json();
   return {
-    props: { product },
+    props: { data },
   };
 }

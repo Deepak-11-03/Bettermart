@@ -58,7 +58,6 @@ export default function Login({setAlert,setMsg,setSuccess,setFormOpen,fetchCart}
       localStorage.setItem('name' ,api.name)
       cookies.set('token',api.token)
       setTimeout(() => {
-        setFormOpen(false)
         router.push('/')
       }, 1000);
     }

@@ -10,7 +10,6 @@ export default function profile() {
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
-    email: "",
     phone: "",
   });
  
@@ -122,17 +121,6 @@ export default function profile() {
           />
           <br />
           <TextField
-            label="Email"
-            name="email"
-            size="small"
-            type='email'
-            required
-            margin="normal"
-            disabled={editable ? false : true}
-            onChange={handleInput}
-            value={user.email}
-          />
-          <TextField
             label="phone"
             size="small"
             name="phone"
@@ -144,15 +132,8 @@ export default function profile() {
           />
           <br />
           <br />
-          <Typography
-            variant="caption"
-            sx={{ fontSize: "16px", fontWeight: "600", marginRight: "8px" }}
-          >
-            Personal Information
-          </Typography>
-          <br />
           {editable && (
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" className={style.button}>
               Save
             </Button>
           )}

@@ -5,17 +5,19 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { useRouter } from "next/router";
 import Grid from '@mui/material/Grid';
 import { Card,CardActionArea,CardContent,CardMedia, Chip, Paper, Typography } from "@mui/material";
-import Footer from "../../Components/Footer";
+import Error from "../_error";
 
-
-export default function Home({ data }) {
-
+export default function Home({ data}) {
 
 const router = useRouter()
-  function detailed(id){
-    router.push(`/products/${id}`)
+  function detailed(title){
+    router.push(`/products/${title}`)
   }
-
+if(data.status === false){
+  return (
+    <Error/>
+  )
+}
   return (
     <>
       <Head>
@@ -35,7 +37,7 @@ const router = useRouter()
           return(
           <Grid  item xs={6} sm={4} md={3} key={product._id}  >
           <Paper>
-            <Card sx={{height:"40vh",justifyContent:"center"}} onClick={()=>detailed(product._id)} >
+            <Card sx={{height:"40vh",justifyContent:"center"}} onClick={()=>detailed(product.title)} >
               <CardActionArea sx={{height:"100%"}}>
                 <CardMedia sx={{objectFit:"contain"}} component="img"
           height="150px" image={product.thumbnail} alt={product.title}/>
@@ -58,7 +60,9 @@ const router = useRouter()
   );
 }
 
-export async function getServerSideProps({page}) {
+export async function getServerSideProps({req}) {
+
+
   const res = await fetch(`http://localhost:3000/api/products`);
   const data =  await res.json();
   return {

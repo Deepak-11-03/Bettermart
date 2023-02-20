@@ -1,60 +1,30 @@
 import { useEffect, useState } from "react";
-import { CircularProgress, Backdrop } from "@mui/material";
+import { CircularProgress, Backdrop, Button } from "@mui/material";
 import { Router } from "next/router";
 import Layout from "../Components/Layout";
 import Header from "../Components/Header";
 import "../styles/globals.css";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import Context from "../utils/context";
+import store from '../redux/store'
+import { Provider } from "react-redux";
 import Footer from "../Components/Footer";
-
 
 export default function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
-
-  const [totalItems, setTotalItems] = useState(0);
-  const [user, setUser] = useState({ value: null });
-
-  const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(false);
   const router = useRouter();
 
+  const showFooter = router.pathname === '/user/login' ? false :true
+
   useEffect(() => {
-   
     const token = Cookies.get("token");
     if (token) {
-      setUser({ value: token });
+      setUser(true);
     } else {
-      setUser({ value: null });
+      setUser(false);
     }
   }, [router.query]);
- var total;
-  const fetchCart = async () => {
-      let api = await fetch("http://localhost:3000/api/user/cart", {
-        method: "GET",
-        headers: {
-          authorization: Cookies.get("token"),
-        },
-      });
-      let cart = await api.json();
-      setCartItems(cart.cart);
-      if(cart.cart && cart.cart.items){
-        total = cart.cart.totalItems
-        setTotalItems(total)
-       }
-       
-  };
-
-
-  useEffect(() => {
-    if (Cookies.get("token")) {
-    fetchCart();
-    }
-    else{
-      setTotalItems(0)
-    }
-  }, [cartItems && cartItems.totalItems ,user.value]); 
-
 
 
   Router.events.on("routeChangeStart", (url) => {
@@ -65,7 +35,7 @@ export default function App({ Component, pageProps }) {
   });
 
   return (
-    <>
+    < >
       {loading && (
         <Backdrop
           sx={{
@@ -77,14 +47,16 @@ export default function App({ Component, pageProps }) {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-        <Header user={user} setUser={setUser} cartItems={cartItems}  setCartItems={setCartItems} totalItems={totalItems} setTotalItems={setTotalItems} />
+
+      <Provider store={store}>
+       <Header user={user}  />
         <Component
           {...pageProps}
           user={user}
-          cartItems={cartItems}
-          setCartItems={setCartItems}
-          totalItems={totalItems}
         />
+        {showFooter && <Footer/>}
+       </Provider>
+
     </>
   );
 }

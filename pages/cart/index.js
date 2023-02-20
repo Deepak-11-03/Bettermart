@@ -8,40 +8,43 @@ import {
   Button,
   useMediaQuery,
   IconButton,
+  LinearProgress,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Cookies from "js-cookie";
 import React from "react";
 import style from "../../styles/Home.module.css";
 import { useRouter } from "next/router";
+import { useSelector,useDispatch } from "react-redux";
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
+import { updateCart,getCart } from "../../redux/actions/cartAction";
+import { useEffect } from "react";
 
-export default function cart({ user, cartItems, totalItems,setCartItems }) {
+export default function cart({ user }) {
   const router = useRouter();
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  const dispatch = useDispatch() 
 
+  const {cart,loading} = useSelector((state)=>state.cart)
+ 
+  useEffect(()=>{
+    dispatch(getCart())
+  },[dispatch])
 
-  const updateitems = async(qty,id)=>{
-      let api = await fetch(`http://localhost:3000/api/user/updatecart`,{
-        method :"PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization":Cookies.get('token')
-        },
-        body:JSON.stringify({qty,id})
-      })
-      api= await api.json()
-      setCartItems(api.cart.items)
+  function update(qty,id){
+    dispatch(updateCart(qty,id))
   }
-
-
-
+  
   return (
     <div className={style.main}>
-      {user.value ? (
+    {loading && (
+      <Box sx={{width: '100%' }}>
+      <LinearProgress />
+    </Box>
+    )}
+      {user ? (
         <Card className={isMatch ? style.cartmid : style.cartFull}>
           <Box
             sx={{
@@ -57,17 +60,17 @@ export default function cart({ user, cartItems, totalItems,setCartItems }) {
           >
             <CardContent>
               <Typography variant="h6" color="black">
-                Subtotal : ({cartItems && totalItems} items) &emsp; Rs {cartItems && cartItems.totalPrice }
+                Subtotal : ({cart ? cart.totalItems :0} items) &emsp; Rs {cart ? cart.totalPrice : 0 }
               </Typography>
-              <Button variant="contained" color="primary"  disabled={!totalItems} onClick={()=>router.push('/user/checkout')} >
+              <Button variant="contained" className={style.button} disabled={cart && cart.totalItems === 0} onClick={()=>router.push('/cart/checkout')} >
                 <ShoppingCartCheckoutOutlinedIcon/>  Procced to Buy
               </Button>
             </CardContent>
           </Box>
           <Box sx={{ width: "100%", padding: "10px"}}>
             {/* <h2>items here</h2> */}
-            {cartItems && cartItems.items && (
-              cartItems.items.map((item, index) => {
+            {cart && cart.items && (
+              cart.items.map((item, index) => {
                 return (
                   <Paper
                     sx={{
@@ -94,11 +97,11 @@ export default function cart({ user, cartItems, totalItems,setCartItems }) {
                       <Typography variant="h6" color="initial">
                         {item.productId.title}
                       </Typography>
-                      <IconButton onClick={()=>updateitems(item.quantity-1,item.productId._id)}>
+                      <IconButton onClick={()=>update(item.quantity-1,item.productId._id)}>
                       <RemoveIcon />
                       </IconButton>
                       <span> {item.quantity} </span>
-                      <IconButton onClick={()=>updateitems(item.quantity+1,item.productId._id)}>
+                      <IconButton onClick={()=>update(item.quantity+1,item.productId._id)}>
                         <AddIcon />
                       </IconButton>
                       &emsp;
@@ -106,7 +109,7 @@ export default function cart({ user, cartItems, totalItems,setCartItems }) {
                         variant="outlined"
                         size="small"
                         startIcon={<DeleteIcon />}
-                        onClick={()=>updateitems(0,item.productId._id)}
+                        onClick={()=>update(0,item.productId._id)}
                       >
                         Remove
                       </Button>
@@ -115,7 +118,7 @@ export default function cart({ user, cartItems, totalItems,setCartItems }) {
                 );
               })
             )}
-            {totalItems === 0 && <Typography>Please add items</Typography>}
+            {cart && cart.totalItems === 0 && <Typography>Please add items</Typography>}
           </Box>
         </Card>
       ) : (

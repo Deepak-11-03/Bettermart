@@ -20,8 +20,10 @@ const handler = async (req, res) => {
   }
   else if(req.method === "PUT"){
     try {
-      console.log(req.body)
       const token = jwt.verify(req.headers.authorization , process.env.Jwt_Secret_key)
+      if(!token){
+        return res.status(401).send({msg:"something wrong"})
+      }
       let {firstName, lastName,email,phone} = req.body
       let existingEmail = await userModel.findOne({ email });
       if(existingEmail){

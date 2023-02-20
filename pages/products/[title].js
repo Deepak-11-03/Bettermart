@@ -8,54 +8,76 @@ import {
   ImageList,
   ImageListItem,
   Typography,
-  Rating, TextField, Button, Snackbar, Alert,
+  Rating, TextField, Button, Snackbar, Alert, Backdrop, CircularProgress, LinearProgress,
 } from "@mui/material";
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import React, { useState } from "react";
 
 import style from "../../styles/Home.module.css";
-import { useContext } from "react";
-import { ContextApi } from "../../utils/context";
+import { useSelector,useDispatch } from "react-redux";
+import { addToCart } from "../../redux/actions/cartAction";
 import Cookies from "js-cookie";
+import Error from "../_error";
 
 export default function detailsPage({user, product,cartItems,setCartItems}) {
   const [image, setImage] = useState("");
   const [alert ,setAlert] = useState(false)
   const [success ,setSuccess] = useState(false)
   const [adding ,setAdding] = useState(false)
+  const dispatch =useDispatch()
+  const{loading ,cart} = useSelector((state)=>state.cart)
   // const{totalItems,setTotalItems} = useContext(ContextApi)
 
 
-  const addtoCart = async (data) => {
-    if(user.value){
-      setAdding(true)
-      let api = await fetch("http://localhost:3000/api/user/cart", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization":Cookies.get('token')
-      },
-      body: JSON.stringify(data),
-    });
-    api = await api.json()
-    setSuccess(true)
-    setAdding(false)
-    setCartItems(api.cart.items)
-    }
-    else{
+  const addProduct = (id)=>{
+    if(!Cookies.get('token')){
       setAlert(true)
     }
-  };
+    else{
+      dispatch(addToCart(id))
+      setSuccess(true)
+    }
+  }
 
   const alertClose = () => {
     setAlert(false);
     setSuccess(false)
   };
-  
+  // if(loading){
+  //   return <>
+  //         {/* <Backdrop
+  //           sx={{
+  //             color: "#ffffff",
+  //             zIndex: 1,
+  //           }}
+  //           open={loading}
+  //         >
+  //           <CircularProgress color="inherit" />
+  //         </Backdrop> */}
+  //         <Box sx={{ marginTop:"3.5rem", width: '100%' }}>
+  //       <LinearProgress />
+  //     </Box>
+  //   </>
+  // }
+
+
+if(data.status === false){
+  return (
+    <Error/>
+  )
+}
+
 
   return (
     <div className={style.main}>
+      <Box sx={{width: '100%' }}>
+    {loading && (
+      
+        <LinearProgress />
+     
+    )}
+    </Box>
       <Snackbar
         sx={{ width: "16rem" }}
         open={alert}
@@ -157,7 +179,7 @@ export default function detailsPage({user, product,cartItems,setCartItems}) {
             <Typography variant="caption" color="blue">
               {product.brand}
             </Typography>
-            <Typography variant="h5" color="initial">
+            <Typography variant="h5" color="initial" >
               {product.title}
               <br />
               <Rating
@@ -198,9 +220,10 @@ export default function detailsPage({user, product,cartItems,setCartItems}) {
             ) : (
               <Button
                 variant="contained"
+                className={style.button}
                 startIcon={<ShoppingCartOutlinedIcon />}
                 onClick={() => {
-                  addtoCart(product._id)
+                  addProduct(product._id)
                 }}
               >
                 {" "}
@@ -213,8 +236,8 @@ export default function detailsPage({user, product,cartItems,setCartItems}) {
     </div>
   );
 }
-export async function getServerSideProps({ params: { id } }) {
-  const res = await fetch(`http://localhost:3000/api/products/${id}`,{method:"GET"});
+export async function getServerSideProps({ params: { title } }) {
+  const res = await fetch(`http://localhost:3000/api/products/${title}`,{method:"GET"});
   const product = await res.json();
   return {
     props: { product },

@@ -9,7 +9,9 @@ const handler = async (req, res) => {
   if(req.method === 'POST'){
   try {
     const user = jwt.verify(req.headers.authorization , process.env.Jwt_Secret_key)
-
+    if(!user){
+      return res.status(401).send({msg:"something wrong"})
+    }
     let product = await productModel.findById(req.body)
     let userCart = await cartModel.findOne({userId:user.userId})
     let cartData={}
@@ -23,7 +25,7 @@ const handler = async (req, res) => {
         cartData.items = userCart.items
         cartData.totalPrice = userCart.totalPrice + product.price
         cartData.totalItems = userCart.totalItems +1
-        const cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true})
+        const cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true}).select({_id:0,userId:0});
         return res.status(200).send({cart})
       }
       //if adding diffrent product in cart
@@ -34,7 +36,7 @@ const handler = async (req, res) => {
         cartData.items = arr;
         cartData.totalPrice = userCart.totalPrice + product.price;
         cartData.totalItems = userCart.totalItems +1
-        const cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true})
+        const cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true}).select({_id:0,userId:0});
         return res.status(200).send({cart})
       }
     }
@@ -46,7 +48,7 @@ const handler = async (req, res) => {
       let totalPrice = product.price;
       let totalItems = 1;
       let products = {userId:user.userId,items:arr,totalPrice,totalItems}
-      let cart = await cartModel.create(products);
+      let cart = await cartModel.create(products)
       return res.status(201).send({cart})
     }
   } catch (error) {
@@ -56,8 +58,11 @@ const handler = async (req, res) => {
 else if(req.method === 'GET'){
   try {
     const user = jwt.verify(req.headers.authorization , process.env.Jwt_Secret_key)
-    let cart = await cartModel.findOne({userId:user.userId}).populate('items.productId')
-    return res.status(200).send({status:true,cart });
+    if(!user){
+      return res.status(401).send({msg:"something wrong"})
+    }
+    let cart = await cartModel.findOne({userId:user.userId}).populate('items.productId').select({_id:0,userId:0});
+    return res.status(200).send({status:true,cart:cart });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
