@@ -25,7 +25,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 350,
-  height: 530,
+  height: 550,
   bgcolor: "white",
   boxShadow: 24,
   p: 3,
@@ -105,7 +105,7 @@ export default function Form({ formOpen, setFormOpen }) {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         onClose={alertClose}
       >
-        <Alert onClose={alertClose} severity="success" sx={{ width: "100%" }}>
+        <Alert onClose={alertClose}  variant="filled" severity="success" sx={{ width: "100%" }}>
           {msg}
         </Alert>
       </Snackbar>
@@ -115,7 +115,7 @@ export default function Form({ formOpen, setFormOpen }) {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         onClose={alertClose}
       >
-        <Alert onClose={alertClose} severity="error" sx={{ width: "100%" }}>
+        <Alert onClose={alertClose}  variant="filled" severity="error" sx={{ width: "100%" }}>
           {msg}
         </Alert>
       </Snackbar>

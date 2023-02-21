@@ -44,25 +44,10 @@ export default function detailsPage({user, product,cartItems,setCartItems}) {
     setAlert(false);
     setSuccess(false)
   };
-  // if(loading){
-  //   return <>
-  //         {/* <Backdrop
-  //           sx={{
-  //             color: "#ffffff",
-  //             zIndex: 1,
-  //           }}
-  //           open={loading}
-  //         >
-  //           <CircularProgress color="inherit" />
-  //         </Backdrop> */}
-  //         <Box sx={{ marginTop:"3.5rem", width: '100%' }}>
-  //       <LinearProgress />
-  //     </Box>
-  //   </>
-  // }
+ 
 
 
-if(data.status === false){
+if(product.status === false){
   return (
     <Error/>
   )
