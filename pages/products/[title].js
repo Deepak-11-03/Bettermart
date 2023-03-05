@@ -8,65 +8,86 @@ import {
   ImageList,
   ImageListItem,
   Typography,
-  Rating, TextField, Button, Snackbar, Alert, Backdrop, CircularProgress, LinearProgress,
+  Rating,
+  TextField,
+  Button,
+  Snackbar,
+  Alert,
+  Backdrop,
+  CircularProgress,
+  LinearProgress,
 } from "@mui/material";
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import React, { useState } from "react";
 
 import style from "../../styles/Home.module.css";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions/cartAction";
 import Cookies from "js-cookie";
 import Error from "../_error";
 
-export default function detailsPage({user, product,cartItems,setCartItems}) {
+export default function detailsPage({
+  user,
+  product,
+  cartItems,
+  setCartItems,
+}) {
   const [image, setImage] = useState("");
-  const [alert ,setAlert] = useState(false)
-  const [success ,setSuccess] = useState(false)
-  const [adding ,setAdding] = useState(false)
-  const dispatch =useDispatch()
-  const{loading ,cart} = useSelector((state)=>state.cart)
+  const [msg, setMsg] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [pincode, setPincode] = useState("");
+  const [invalid, setInvalid] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, cart } = useSelector((state) => state.cart);
   // const{totalItems,setTotalItems} = useContext(ContextApi)
 
-
-  const addProduct = (id)=>{
-    if(!Cookies.get('token')){
-      setAlert(true)
+  const addProduct = (product) => {
+    console.log(cart);
+    if (!Cookies.get("token")) {
+      setAlert(true);
     }
-    else{
-      dispatch(addToCart(id))
-      setSuccess(true)
+    // else if(product.quantity === 10){
+    //     setAlert(true)
+    //     setMsg("MAximum qauntity to buy is 10")
+    // }
+    else {
+      dispatch(addToCart(product._id));
+      setMsg("Product added to your cart");
+      setSuccess(true);
     }
-  }
+  };
 
   const alertClose = () => {
     setAlert(false);
-    setSuccess(false)
+    setSuccess(false);
   };
- 
 
+  const checkPincode = async (pincode) => {
+    let api = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+    api = await api.json();
+    console.log(api[0].Status);
+    if (api[0].Status === "Success") {
+      setInvalid(false);
+    }
+    if (api[0].Status === "Error") {
+      setInvalid(true);
+    }
+  };
 
-if(product.status === false){
-  return (
-    <Error/>
-  )
-}
-
+  if (product.status === false) {
+    return <Error />;
+  }
 
   return (
     <div className={style.main}>
-      <Box sx={{width: '100%' }}>
-    {loading && (
-      
-        <LinearProgress />
-     
-    )}
-    </Box>
+      <Box sx={{ width: "100%" }}>{loading && <LinearProgress />}</Box>
       <Snackbar
         sx={{ width: "16rem" }}
         open={alert}
-        autoHideDuration={4000}
+        autoHideDuration={2000}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         onClose={alertClose}
       >
@@ -76,13 +97,13 @@ if(product.status === false){
           severity="info"
           sx={{ width: "100%" }}
         >
-          Please Login First !
+          {msg}
         </Alert>
       </Snackbar>
       <Snackbar
         sx={{ width: "23rem" }}
         open={success}
-        autoHideDuration={4000}
+        autoHideDuration={2000}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         onClose={alertClose}
       >
@@ -92,7 +113,7 @@ if(product.status === false){
           severity="success"
           sx={{ width: "100%" }}
         >
-          Product Added successfully
+          {msg}
         </Alert>
       </Snackbar>
       <Grid
@@ -164,7 +185,7 @@ if(product.status === false){
             <Typography variant="caption" color="blue">
               {product.brand}
             </Typography>
-            <Typography variant="h5" color="initial" >
+            <Typography variant="h5" color="initial">
               {product.title}
               <br />
               <Rating
@@ -191,10 +212,24 @@ if(product.status === false){
               ).toFixed(0)}
             </Typography>
             <Paper elevation={0}>
-              <TextField label="Pincode" variant="standard" size="small" />
-              <Button sx={{ marginTop: "10px" }}>Check</Button>
+              <TextField
+                type="number"
+                label="Pincode"
+                variant="standard"
+                size="small"
+                value={pincode}
+                onChange={(e) => setPincode(e.target.value)}
+                error={invalid}
+                helperText={invalid && "Enter valid pincode"}
+              />
+              <Button
+                sx={{ marginTop: "10px" }}
+                onClick={() => checkPincode(pincode)}
+              >
+                Check
+              </Button>
             </Paper>
-            { adding ? (
+            {adding ? (
               <Button
                 disabled
                 variant="contained"
@@ -208,7 +243,7 @@ if(product.status === false){
                 className={style.button}
                 startIcon={<ShoppingCartOutlinedIcon />}
                 onClick={() => {
-                  addProduct(product._id)
+                  addProduct(product);
                 }}
               >
                 {" "}
@@ -222,7 +257,9 @@ if(product.status === false){
   );
 }
 export async function getServerSideProps({ params: { title } }) {
-  const res = await fetch(`http://localhost:3000/api/products/${title}`,{method:"GET"});
+  const res = await fetch(`http://localhost:3000/api/products/${title}`, {
+    method: "GET",
+  });
   const product = await res.json();
   return {
     props: { product },

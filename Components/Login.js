@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 import cookies from "js-cookie";
 const email = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/;
 
-export default function Login({setAlert,setMsg,setSuccess,setFormOpen,fetchCart}) {
+export default function Login({setAlert,setMsg,setSuccess,userCart,setForgot}) {
   const router =useRouter()
   const {
     register,
@@ -43,7 +43,7 @@ export default function Login({setAlert,setMsg,setSuccess,setFormOpen,fetchCart}
 
 
   const onSubmit = async (data) => {
-    let api = await fetch("http://localhost:3000/api/user/login", {
+    let api = await fetch("/api/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,6 +57,7 @@ export default function Login({setAlert,setMsg,setSuccess,setFormOpen,fetchCart}
       setSuccess(true);
       localStorage.setItem('name' ,api.name)
       cookies.set('token',api.token)
+      userCart()
       setTimeout(() => {
         router.push('/')
       }, 1000);
@@ -139,7 +140,7 @@ export default function Login({setAlert,setMsg,setSuccess,setFormOpen,fetchCart}
                 </Button>
               </form>
               <br/>
-              <Button > Forget password ?</Button>
+              <Button onClick={()=>setForgot(true)} > Forget password ?</Button>
     </div>
   );
 }

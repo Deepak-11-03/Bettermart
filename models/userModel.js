@@ -22,10 +22,20 @@ const userSchema = new mongoose.Schema({
     password:  {
         type:String,
         required:true
-    }
+    },
     // address:{
-
-    // }
+    //     houseNo:{type:String,required:true},
+    //     street:{type:String,required:true},
+    //     area:{type:String,required:true},
+    //     city:{type:String,required:true},
+    //     state:{type:String,required:true},
+    //     pincode:{type:Number,required:true},
+    // },
+    verified:{
+        type:Boolean,
+        default:false
+    },
+    otpToken:String
 })
 
 export default mongoose.models.User || mongoose.model('User' ,userSchema)

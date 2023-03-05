@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import styleshit from "../styles/Home.module.css";
+import style from "../styles/Home.module.css";
 import Image from "next/image";
 import Form from "./Form";
 import Link from "next/Link";
+// import {Link} from 'next'
 import cookie from "js-cookie";
 import {
   Box,
@@ -82,10 +83,10 @@ export default function Header({ user }) {
     router.push("/");
   };
 
-  const getUserProfile = () => {
-    setOpen(false);
-    router.push(`/user/profile`);
-  };
+  // const getUserProfile = () => {
+  //   setOpen(false);
+  //   router.push(`/user/profile`);
+  // };
   const getUserOrder = () => {
     setOpen(false);
     router.push(`/user/order`);
@@ -93,7 +94,7 @@ export default function Header({ user }) {
 
 
   const userMenu =[
-    {icon:<AccountBoxIcon/> , name:"My Profile" , action:getUserProfile},
+    // {icon:<AccountBoxIcon/> , name:"My Profile" , action:getUserProfile},
     {icon:<Inventory2OutlinedIcon/> , name:"Orders",action:getUserOrder},
     {icon:<LogoutRoundedIcon/> ,name:"Logout",action:logout},
   ]
@@ -118,7 +119,7 @@ export default function Header({ user }) {
             </Link>
             <List
               sx={{ padding: 0 }}
-              className={isMatch ? styleshit.sidebar : styleshit.menu}
+              className={isMatch ? style.sidebar : style.menu}
             >
               <ListItem
                 sx={{
@@ -179,7 +180,7 @@ export default function Header({ user }) {
                   variant="contained"
                   onClick={() => router.push("/user/login")}
                   sx={{ width: "6rem" }}
-                  className={styleshit.button}
+                  className={style.button}
                 >
                   Login
                 </Button>

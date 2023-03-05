@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import { ADD_TO_CART, GET_CART_REQUEST,
     GET_CART_SUCCESS,
     UPDATE_CART_REQUEST,
@@ -6,8 +7,8 @@ import { ADD_TO_CART, GET_CART_REQUEST,
     REMOVE_FROM_CART,
     CLEAR_CART,CART_FAIL, USER_CART } from "../constants/cartContant";
 
-
 export const getCart =()=> async(dispatch)=>{
+
     try {
         dispatch({type:GET_CART_REQUEST})
         let data = await fetch('/api/user/cart',{
@@ -17,6 +18,7 @@ export const getCart =()=> async(dispatch)=>{
             },
         })
         data = await data.json();
+        
         dispatch({
             type:GET_CART_SUCCESS,
             payload:data
@@ -57,7 +59,7 @@ export const addToCart =(id)=>async(dispatch)=>{
 export const updateCart =(qty,id)=>async(dispatch)=>{
     try {
         dispatch({type:UPDATE_CART_REQUEST})
-        let data = await fetch(`http://localhost:3000/api/user/updatecart`,{
+        let data = await fetch(`/api/user/updatecart`,{
         method :"PUT",
         headers: {
           "Content-Type": "application/json",

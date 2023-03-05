@@ -18,6 +18,7 @@ import {
 import styleshit from "../styles/Home.module.css";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { email,phone,pass } from "../utils/validater";
 
 
 export default function Signup({setMsg,setAlert,setSuccess,setFormOpen}) {
@@ -46,22 +47,11 @@ export default function Signup({setMsg,setAlert,setSuccess,setFormOpen}) {
     confirmPassword: "",
   });
 
-  let name, value;
   const handleInput = (e) => {
-    name = e.target.name;
-    value = e.target.value;
-    setUser({ ...user, [name]: value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
-
-
- 
-
-  const email = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/;
-  const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
-  const phone = /^[789]\d{9}$/;
-
   const onSubmit = async (data) => {
-    let api = await fetch("http://localhost:3000/api/user/signup", {
+    let api = await fetch("/api/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,8 +64,8 @@ export default function Signup({setMsg,setAlert,setSuccess,setFormOpen}) {
       reset()
       setSuccess(true);
       setTimeout(() => {
-        setFormOpen(false);
-      }, 1500);
+        router.push('/')
+      }, 1000);
     }
     else{
       setMsg(api.msg)
@@ -173,11 +163,11 @@ export default function Signup({setMsg,setAlert,setSuccess,setFormOpen}) {
             onChange={handleInput}
             {...register("password", {
               required: true,
-              pattern: {
-                value: 123,
-                message:
-                  "A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required.",
-              },
+              // pattern: {
+              //   value: 123,
+              //   message:
+              //     "A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required.",
+              // },
             })}
             error={Boolean(errors.password)}
           >

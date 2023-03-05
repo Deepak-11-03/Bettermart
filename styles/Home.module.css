@@ -10,6 +10,21 @@
   display: flex;
   flex-direction: column;
 }
+.forgotPage{
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+}
+.forgotForm{
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  gap: 5px;
+}
+.verifyOtp{
+  margin: 1px auto;
+
+}
 
  .phone input[type=number]::-webkit-inner-spin-button, 
  .phone input[type=number]::-webkit-outer-spin-button { 
@@ -33,13 +48,18 @@
     right: "1rem";
     top: "90vh"
 }
+.products:hover{
+  transform: scale(1.02);
+}
 .cartFull{
+  padding-top: 10px;
   min-height: 100vh;
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
 }
 .cartmid{
+  padding-top: 10px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -88,4 +108,21 @@
   text-align: center;
   font-size: 2.5vmax;
   font-family: 'Playfair Display', serif;
+}
+ #addressSave{
+  margin-left: 20%;
+}
+.orderDetails h6{
+  font-size: 18px;
+  font-weight: light;
+}
+.orderDetails span{
+  float: right;
+}
+.checkout{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-around;
 }

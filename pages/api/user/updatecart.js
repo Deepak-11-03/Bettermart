@@ -23,7 +23,7 @@ const handler =async(req,res)=>{
                 cartData.totalPrice = userCart.totalPrice + product.price
                 cartData.totalItems =  userCart.totalItems + 1
                 let cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true}).populate('items.productId').select({_id:0,userId:0});
-                return res.status(200).send({cart})
+                return res.status(200).send({status:true,msg:"Cart updated succesfully",cart})
             }
             else if(qty < 1){
                 let totalPrice = userCart.totalPrice;
@@ -31,7 +31,7 @@ const handler =async(req,res)=>{
                 totalPrice -= product.price * cartProduct.quantity
                 totalItems -= cartProduct.quantity
                 let cart= await cartModel.findOneAndUpdate({userId: user.userId }, { $pull: { items: { productId: cartProduct.productId } }, $set: { totalPrice: totalPrice ,totalItems:totalItems }}, { new: true }).populate('items.productId').select({_id:0,userId:0});
-                 return res.status(200).send({cart})
+                 return res.status(200).send({status:true,msg:"Cart updated succesfully",cart})
             }
             else  {
                 cartProduct.quantity -= 1
@@ -39,7 +39,7 @@ const handler =async(req,res)=>{
                 cartData.totalPrice = userCart.totalPrice - product.price
                 cartData.totalItems =  userCart.totalItems - 1
                 let cart = await cartModel.findOneAndUpdate({userId:user.userId},cartData,{new:true}).populate('items.productId').select({_id:0,userId:0});
-                 return res.status(200).send({cart})
+                 return res.status(200).send({status:true,msg:"Cart updated succesfully",cart})
             }
 
         

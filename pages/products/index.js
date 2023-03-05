@@ -35,7 +35,7 @@ if(data.status === false){
         >
          {data.products.map((product) => {
           return(
-          <Grid  item xs={6} sm={4} md={3} key={product._id}  >
+          <Grid  item xs={6} sm={4} md={3} key={product._id}  className={style.products} >
           <Paper>
             <Card sx={{height:"40vh",justifyContent:"center"}} onClick={()=>detailed(product.title)} >
               <CardActionArea sx={{height:"100%"}}>

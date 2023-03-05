@@ -18,8 +18,6 @@ export default function Beauty({ data }) {
   function detailed(title) {
     router.push(`/products/${title}`);
   }
-
-  console.log(data)
   if(data.status === false){
     return (
       <Error/>
@@ -35,7 +33,7 @@ export default function Beauty({ data }) {
       >
         {data.products.map((post) => {
           return (
-            <Grid item xs={6} sm={4} md={3} key={post._id}>
+            <Grid item xs={6} sm={4} md={3} key={post._id} className={style.products} >
               <Paper>
                 <Card
                   sx={{ height: "40vh", justifyContent: "center" }}

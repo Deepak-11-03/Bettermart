@@ -9,27 +9,31 @@ import {
   USER_CART
 } from "../constants/cartContant";
 
-export const cartReducer = (state = { cart: [] }, action) => {
+export const cartReducer = (state = { cart: [] ,msg:"" }, action) => {
   switch (action.type) {
+    
     case GET_CART_REQUEST:
       return {
         loading: true,
         cart: [],
       };
     case GET_CART_SUCCESS:
+      
       return {
         loading: false,
         cart: action.payload.cart,
+        msg:action.payload.msg
       };
     case USER_CART:
       return{
         loading:false,
-        cart:state.cart
+        cart:state
       }
     case ADD_TO_CART:
       return {
         loading: false,
         cart: action.payload.cart,
+        msg:action.payload.msg
       };
     case UPDATE_CART_REQUEST:
       return {
@@ -40,6 +44,7 @@ export const cartReducer = (state = { cart: [] }, action) => {
       return {
         loading: false,
         cart: action.payload.cart,
+        msg:action.payload.msg
       };
     case CART_FAIL:
       return {

@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
   const [user, setUser] = useState(false);
   const router = useRouter();
 
-  const showFooter = router.pathname === '/user/login' ? false :true
+  const showFooter = router.pathname === '/user/login'  ? false :true
 
   useEffect(() => {
     const token = Cookies.get("token");
