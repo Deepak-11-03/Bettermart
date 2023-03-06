@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import style from "../styles/Home.module.css";
 import Image from "next/image";
 import Form from "./Form";
-import Link from "next/Link";
+import Link from "next/link";
 // import {Link} from 'next'
 import cookie from "js-cookie";
 import {
