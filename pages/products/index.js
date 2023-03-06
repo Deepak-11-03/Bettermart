@@ -63,7 +63,7 @@ if(data.status === false){
 export async function getServerSideProps({req}) {
 
 
-  const res = await fetch(`http://localhost:3000/api/products`);
+  const res = await fetch(`https://celebrated-buttercream-e25c95.netlify.app/api/products`);
   const data =  await res.json();
   return {
     props: { data },
