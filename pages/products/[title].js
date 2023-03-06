@@ -257,7 +257,7 @@ export default function detailsPage({
   );
 }
 export async function getServerSideProps({ params: { title } }) {
-  const res = await fetch(`http://localhost:3000/api/products/${title}`, {
+  const res = await fetch(`https://celebrated-buttercream-e25c95.netlify.app/api/products/${title}`, {
     method: "GET",
   });
   const product = await res.json();
