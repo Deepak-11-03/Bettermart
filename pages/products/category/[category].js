@@ -72,7 +72,7 @@ export default function Beauty({ data }) {
 }
 export async function getServerSideProps({ params: { category } }) {
   const res = await fetch(
-    `http://localhost:3000/api/products/category/${category}`
+    `https://celebrated-buttercream-e25c95.netlify.app/api/products/category/${category}`
   );
   const data = await res.json();
   return {
