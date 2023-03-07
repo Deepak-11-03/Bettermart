@@ -30,7 +30,7 @@ export default function Home({user }) {
       </Head>
       <main className={style.main}>       
             <Box sx={{maxWidth:"100%",height:"60vh"}}>
-            <Typography className={style.heading} sx={{fontSize: "2.5rem",fontFamily:'Playfair Display' }} variant="h1">Welcome to bettermart</Typography>
+            <Typography className={style.heading} sx={{fontSize: "2.5vmax",fontFamily:'Playfair Display' }} variant="h1">Welcome to bettermart</Typography>
               <img src="/pexels-karolina.jpg" alt="Photo by Ksenia Chernaya" style={{width: "100%",height:"100%", overflowY:"hidden"}}/>
             </Box> 
       </main>
