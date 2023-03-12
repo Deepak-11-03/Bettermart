@@ -1,11 +1,9 @@
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
 import { ADD_TO_CART, GET_CART_REQUEST,
     GET_CART_SUCCESS,
     UPDATE_CART_REQUEST,
     UPDATE_CART_SUCCESS,
-    REMOVE_FROM_CART,
-    CLEAR_CART,CART_FAIL, USER_CART } from "../constants/cartContant";
+    CART_FAIL } from "../constants/cartContant";
 
 export const getCart =()=> async(dispatch)=>{
 

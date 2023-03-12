@@ -1,11 +1,17 @@
+import Head from 'next/head';
 import React from 'react'
 import style from "../../styles/Home.module.css";
 function order({orders}) {
   console.log(orders)
   return (
-    <div className={style.main}>
+    <>
+      <Head>
+        <title>My orders</title>
+      </Head>
+      <div className={style.main}>
       here is your orders
     </div>
+    </>
   )
 }
 
@@ -22,7 +28,7 @@ export async function getServerSideProps(ctx) {
       },
     };
   } else {
-    let api = await fetch('http://localhost:3000/api/order',{
+    let api = await fetch(`${process.env.BASE_URL}/api/order`,{
       method:"GET",
       headers:{
         authorization:cookie

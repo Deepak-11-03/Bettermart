@@ -7,14 +7,14 @@ const nextConfig = {
 httpAgentOptions: {
   keepAlive: false,
 },
+publicRuntimeConfig: {
+  BASE_URL: 'https://better-mart.netlify.app',
+},
+images: {
+  domains: ['res.cloudinary.com'],
+},
 
 }
-
-
-
-module.exports = {
-  serverTimeout: 1000, // Timeout in milliseconds
-};
 
 
 module.exports = nextConfig

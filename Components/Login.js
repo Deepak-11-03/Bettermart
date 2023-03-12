@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   Typography,
   Snackbar,
   Alert,
@@ -11,6 +10,7 @@ import {
   InputAdornment,
   IconButton,
   FormHelperText,
+  Button,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Visibility from "@mui/icons-material/Visibility";
@@ -18,6 +18,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import styleshit from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 import cookies from "js-cookie";
+import { CustomButton } from "../utils/customButton";
 const email = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/;
 
 export default function Login({setAlert,setMsg,setSuccess,userCart,setForgot}) {
@@ -130,14 +131,12 @@ export default function Login({setAlert,setMsg,setSuccess,userCart,setForgot}) {
                   />
                   <FormHelperText>{errors.password?.message}</FormHelperText>
                 </FormControl>
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
+                <CustomButton
+                  type="submit"                 
                   style={{ marginTop: "10px" }}
                 >
                   Login
-                </Button>
+                </CustomButton>
               </form>
               <br/>
               <Button onClick={()=>setForgot(true)} > Forget password ?</Button>

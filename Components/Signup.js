@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import {useRouter} from "next/router";
 import {
@@ -19,9 +18,10 @@ import styleshit from "../styles/Home.module.css";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { email,phone,pass } from "../utils/validater";
+import { CustomButton } from "../utils/customButton";
 
 
-export default function Signup({setMsg,setAlert,setSuccess,setFormOpen}) {
+export default function Signup({setMsg,setAlert,setSuccess}) {
   const router = useRouter()
   const {
     register,
@@ -207,14 +207,12 @@ export default function Signup({setMsg,setAlert,setSuccess,setFormOpen}) {
             error={Boolean(errors.confirmPassword)}
             helperText={errors.confirmPassword?.message}
           />
-          <Button
+          <CustomButton
             type="submit"
-            color="primary"
-            variant="contained"
             style={{ marginTop: "10px" }}
           >
             Register
-          </Button>
+          </CustomButton>
         </form>
         <br />
       

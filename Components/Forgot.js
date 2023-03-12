@@ -4,6 +4,7 @@ import UpdatePassword from "./UpdatePassword";
 import style from "../styles/Home.module.css";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { CustomButton } from "../utils/customButton";
 
 const styled = {
   position: "absolute",
@@ -90,14 +91,12 @@ function Forgot(props) {
               error={Boolean(errors.email)}
               helperText={errors.email?.message}
             />
-            <Button
+            <CustomButton
             type="submit"
               // onClick={() => verifyOtpPage(true)}
-              variant="contained"
-              color="primary"
             >
               Next
-            </Button>
+            </CustomButton>
           </form>
         )}
       </div>

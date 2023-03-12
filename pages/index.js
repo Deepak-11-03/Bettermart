@@ -1,24 +1,34 @@
 import Head from "next/head";
-// import { useState, useEffect } from "react";
 import style from "../styles/Home.module.css";
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import { Box, Card, Paper, Typography } from "@mui/material";
+import { Inter } from "@next/font/google";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import Grid from '@mui/material/Grid';
-import { Card,CardActionArea,CardContent,CardMedia, Chip, Paper, Typography } from "@mui/material";
-import { useSelector,useDispatch } from "react-redux";
-import { getCart } from "../redux/actions/cartAction";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
-import { Box, Container } from "@mui/system";
+import images from "../utils/images";
 
-export default function Home({user }) {
-  const dispatch = useDispatch()
+const inter = Inter({ subsets: ["latin"] });
 
-  // useEffect(()=>{
-  //   if(!Cookies.get('token')){
-  //     dispatch({type:CLEAR_CART})
-  //   }
-  // },[user.value])
+const categories = [
+  "home-decoration",
+  "groceries",
+  "womens-dresses",
+  "womens-shoes",
+  "mens-shirts",
+  "mens-shoes",
+  "furniture",
+  "mens-watches",
+  "womens-bags",
+  "womens-jewellery",
+];
+
+export default function Home({ user }) {
+    const  router = useRouter()
+    const fetching =async(category)=>{
+      router.push(`/products/category/${category}`)
+    }
+ 
+
 
   return (
     <>
@@ -28,11 +38,41 @@ export default function Home({user }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={style.main}>       
-            <Box sx={{maxWidth:"100%",height:"60vh"}}>
-            <Typography className={style.heading} variant="h1">Welcome to bettermart</Typography>
-              <img src="/pexels-karolina.jpg" alt="Photo by Ksenia Chernaya" style={{width: "100%",height:"100%", overflowY:"hidden"}}/>
-            </Box> 
+      <main className={style.main}>
+        <Box sx={{ maxWidth: "100%", height: "100%" }}>
+          <Box className={style.heading}>
+            <Typography
+              sx={{ fontSize: "3.5vmax", fontFamily: "Playfair Display" }}
+              variant="h1"
+            >
+              Welcome to bettermart
+            </Typography>
+            <Typography
+              sx={{ marginTop: "1rem", fontSize: "1.8vmax" }}
+              variant="h6"
+            >
+              Shop everything at one place
+            </Typography>
+          </Box>
+          <Image
+            className={style.homeimage}
+            src="/image1.jpg"
+            alt="Photo by Ksenia Chernaya"
+            style={{ objectFit: "fill", width: "100%" }}
+            width={1000}
+            height={700}
+          />
+        </Box>
+        <Box sx={{ width: "100%", minHeight: "30rem", padding: "1rem" ,display:"flex",flexDirection:"row",flexWrap:"wrap",justifyContent:"center" ,gap:"15px"}}>
+          {categories.map((category,index)=>{
+            return(
+              <Box key={category} onClick={()=>fetching(category)} className={style.category} >
+              <Image src={images[index]} height={150} width={170} style={{objectFit:"cover"}}/>
+                <Typography variant="body1" >{category}</Typography>
+              </Box>
+            )
+          })}
+        </Box>
       </main>
     </>
   );

@@ -5,7 +5,7 @@ const connectDb = handler =>async(req,res)=>{
         return handler(req,res)
     }
     mongoose.set('strictQuery', false)
-    await mongoose.connect('mongodb+srv://testing:TXPxQZxsp8BSnQb9@cluster0.jhebhrt.mongodb.net/next-project')
+    await mongoose.connect(process.env.MONGODB_URI)
     return handler(req,res)
 }
 

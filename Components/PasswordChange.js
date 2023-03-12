@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { pass } from "../utils/validater";
+import { CustomButton } from "../utils/customButton";
 
 function PasswordChange(props) {
   const { setMsg, setAlert, setSuccess, setForgot, emailRef } = props;
@@ -76,9 +77,9 @@ function PasswordChange(props) {
         error={Boolean(errors.confirmPassword)}
         helperText={errors.confirmPassword?.message}
       />
-      <Button fullWidth variant="contained" type="submit" color="primary">
+      <CustomButton type="submit">
         Submit
-      </Button>
+      </CustomButton>
     </form>
   );
 }

@@ -12,20 +12,29 @@ import {
   Typography,
 } from "@mui/material";
 import Error from "../../_error";
+import Head from "next/head";
+import { useState } from "react";
 
 export default function Beauty({ data }) {
   const router = useRouter();
   function detailed(title) {
     router.push(`/products/${title}`);
   }
+
+  const { category } = router.query;
   if(data.status === false){
     return (
       <Error/>
     )
   }
 
+
   return (
-    <div className={style.main}>
+    <>
+      <Head>
+        <title>{category}</title>
+      </Head>
+      <div className={style.main}>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}
@@ -68,11 +77,12 @@ export default function Beauty({ data }) {
         })}
       </Grid>
     </div>
+    </>
   );
 }
 export async function getServerSideProps({ params: { category } }) {
   const res = await fetch(
-    `http://localhost:3000/api/products/category/${category}`
+    `${process.env.BASE_URL}/api/products/category/${category}`
   );
   const data = await res.json();
   return {

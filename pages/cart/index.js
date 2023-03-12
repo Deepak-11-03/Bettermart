@@ -25,8 +25,8 @@ import { useSelector, useDispatch } from "react-redux";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import { updateCart, getCart } from "../../redux/actions/cartAction";
 import { useEffect } from "react";
-import { USER_CART } from "../../redux/constants/cartContant";
-import Cookies from "js-cookie";
+import Head from "next/head";
+import {CustomButton} from '../../utils/customButton'
 
 export default function cart({ user }) {
   const router = useRouter();
@@ -36,7 +36,6 @@ export default function cart({ user }) {
 
   const { cart, loading } = useSelector((state) => state.cart);
   const fetchingCart = () => {
-    // localStorage.setItem("cart",JSON.stringify(cart))
     dispatch(getCart());
   };
 
@@ -47,10 +46,6 @@ export default function cart({ user }) {
   useEffect(() => {
     fetchingCart();
   }, [dispatch]);
-
-  // window.addEventListener('beforeunload', () => {
-  //     dispatch(getCart())
-  // })
 
   function update(qty, product) {
     if (product.quantity === 10 && qty >= 10) {
@@ -72,6 +67,10 @@ export default function cart({ user }) {
   };
 
   return (
+  <>
+    <Head>
+      <title>Cart</title>
+    </Head>
     <div className={style.main}>
       {loading && (
         <Box sx={{ width: "100%" }}>
@@ -97,10 +96,10 @@ export default function cart({ user }) {
         <Card className={isMatch ? style.cartmid : style.cartFull}>
           <Box
             sx={{
-              padding: "6px",
-              margin: "5px",
+              // padding: "6px",
+              margin: "1rem",
               background: "lightyellow",
-              minWidth: "16rem",
+              minWidth: "18rem",
               backgroundColor: "white",
               maxHeight: "10rem",
               position: "sticky",
@@ -113,22 +112,21 @@ export default function cart({ user }) {
               Order Summery
             </Typography>
             <CardContent sx={{ border: ".5px solid #dee2e6" }}>
-              <Typography variant="subtitle2" color="black">
+              <Typography variant="h5" color="black">
                 Total Items : {cart ? cart.totalItems : 0}
               </Typography>
               {/* <br /> */}
-              <Typography variant="subtitle2" color="black">
+              <Typography variant="h5" color="black">
                 Total Price : Rs {cart ? cart.totalPrice : 0}
               </Typography>
-              <Button
-                sx={{ marginTop: "8px" }}
+              <br />
+              <CustomButton
+                disabled={cart && cart.totalItems === 0 || !cart}
                 variant="contained"
-                className={style.button}
-                disabled={cart && cart.totalItems === 0}
                 onClick={() => router.push("/cart/checkout")}
               >
                 <ShoppingCartCheckoutOutlinedIcon /> Procced to Buy
-              </Button>
+              </CustomButton>
             </CardContent>
           </Box>
           <Box sx={{ width: "100%", padding: "10px" }}>
@@ -140,7 +138,7 @@ export default function cart({ user }) {
                   <Paper
                     sx={{
                       display: "flex",
-                      gap: "10px",
+                      gap: "20px",
                       margin: "8px",
                       padding: "8px",
                       border: ".5px solid #dee2e6",
@@ -149,8 +147,8 @@ export default function cart({ user }) {
                   >
                     <img
                       style={{
-                        width: "130px",
-                        height: "150px",
+                        width: "140px",
+                        height: "130px",
                         padding: "3px",
                         cursor: "pointer",
                       }}
@@ -162,7 +160,7 @@ export default function cart({ user }) {
                       <Typography fontSize={12} color="initial">
                         {item.productId.brand}
                       </Typography>
-                      <Typography noWrap={true} variant="h6" color="initial">
+                      <Typography  variant="h6" color="initial">
                         {item.productId.title}
                       </Typography>
                       <br />
@@ -198,7 +196,7 @@ export default function cart({ user }) {
                   </Paper>
                 );
               })}
-            {cart && cart.totalItems === 0 && (
+            {cart && cart.totalItems === 0 || !cart && (
               <Typography textAlign="center" variant="h4">
                 Please add items
               </Typography>
@@ -220,5 +218,6 @@ export default function cart({ user }) {
         </Box>
       )}
     </div>
+  </>
   );
 }

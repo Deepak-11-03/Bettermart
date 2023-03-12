@@ -38,6 +38,10 @@ const orderSchema = new mongoose.Schema(
       default: "pending",
       enum: ["pending", "completed", "cancled"],
     },
+    // orderedAt:{
+    //   type:Date,
+    //   default:new Date().toLocaleString()
+    // },
     shippingDetails:{
       name:String,
       phone:Number,

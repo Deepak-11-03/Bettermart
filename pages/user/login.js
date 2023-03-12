@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { getCart } from "../../redux/actions/cartAction";
 import Forgot from "../../Components/Forgot";
 import Login from "../../Components/Login";
+import Head from "next/head";
 
 const style = {
   position: "absolute",
@@ -43,6 +44,9 @@ export default function Form() {
 
   return (
     <>
+    <Head>
+        <title>Login</title>
+      </Head>
       <Snackbar
         open={success}
         autoHideDuration={4000}

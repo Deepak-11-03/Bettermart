@@ -7,6 +7,7 @@ import PasswordChange from "./PasswordChange";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { pass } from "../utils/validater";
+import { CustomButton } from "../utils/customButton";
 
 function VerifyOtp(props) {
   const {
@@ -83,15 +84,13 @@ function VerifyOtp(props) {
           disabled={otpVerified}
           onChange={(e) => setOtpToken(e.target.value)}
         />
-        <Button
+        <CustomButton
           disabled={otpVerified}
           type="submit"
           onClick={onSubmit}
-          variant="contained"
-          color="primary"
         >
           Verify
-        </Button>
+        </CustomButton>
       </form>
       <br />
 
@@ -135,15 +134,13 @@ function VerifyOtp(props) {
           error={Boolean(errors.confirmPassword)}
           helperText={errors.confirmPassword?.message}
         />
-        <Button
+        <CustomButton
           disabled={!otpVerified}
-          fullWidth
-          variant="contained"
+          style={{backgroundColor:!otpVerified && "#b7b7b7",color:!otpVerified && "grey",marginLeft:"36%"}}
           type="submit"
-          color="primary"
         >
           Submit
-        </Button>
+        </CustomButton>
       </form>
     </div>
   );

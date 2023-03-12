@@ -1,19 +1,24 @@
-import style from '../styles/Home.module.css'
-
+import { Box, Typography } from "@mui/material";
+import style from "../styles/Home.module.css";
 
 function Error() {
   return (
-    <p className={style.main}>
-     
+    <div className={style.main}>
+    <Box
+      sx={{
+        padding:"8rem",
+        marginTop:"3rem",
+        textAlign:"center"
+      }}
+    >
+      <Typography variant="h5" color="initial">
         An error occurred on server
-      An error occurred on client Please check your internet connection
-    </p>
-  )
+      </Typography>
+      <Typography variant="h5" color="initial">
+        Please check your internet connection
+      </Typography>
+    </Box>
+    </div>
+  );
 }
-
-// Error.getInitialProps = ({ res, err }) => {
-//   const statusCode = res ? res.statusCode : err ? err.statusCode : 404
-//   return { statusCode }
-// }
-
-export default Error
+export default Error;

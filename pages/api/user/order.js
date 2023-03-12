@@ -7,14 +7,21 @@ import jwt  from "jsonwebtoken";
 const handler =async(req,res)=>{
    if(req.method === "POST"){
     try {
-        console.log(req.body)
+        let{name,phone,houseNo,street,area,pincode,city,state} = req.body
         const token = jwt.verify(req.headers.authorization , process.env.Jwt_Secret_key);
         const userCart = await cartModel.findOne({userId:token.userId})
+        let shippingDetail = {
+            name,phone,
+            adderss:{
+                houseNo,area,street,city,pincode,state
+            }
+        }
         let orderDetails ={}
         orderDetails.userId = token.userId;
         orderDetails.items = userCart.items;
         orderDetails.totalPrice = userCart.totalPrice;
         orderDetails.totalItems  =userCart.totalItems;
+        orderDetails.shippingDetails = shippingDetail
         let order = await orderModel.create(orderDetails);
         userCart.items = [];
         userCart.totalPrice=0;

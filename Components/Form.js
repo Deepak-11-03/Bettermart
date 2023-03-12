@@ -71,10 +71,10 @@ export default function Form({ formOpen, setFormOpen }) {
             </Tabs>
             
               {tabIndex === 0 && (
-                <Login setAlert={setAlert} setMsg={setMsg} setSuccess={setSuccess} setFormOpen={setFormOpen}/>
+                <Login setAlert={setAlert} setMsg={setMsg} setSuccess={setSuccess} />
               )}
               {tabIndex === 1 && (
-                <Signup setAlert={setAlert} setMsg={setMsg} setSuccess={setSuccess} setFormOpen={setFormOpen}/>
+                <Signup setAlert={setAlert} setMsg={setMsg} setSuccess={setSuccess} />
               )}
           </Box>
         </Fade>

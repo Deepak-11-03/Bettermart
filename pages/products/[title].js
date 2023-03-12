@@ -10,12 +10,12 @@ import {
   Typography,
   Rating,
   TextField,
-  Button,
   Snackbar,
   Alert,
   Backdrop,
   CircularProgress,
   LinearProgress,
+  Button,
 } from "@mui/material";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -26,6 +26,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions/cartAction";
 import Cookies from "js-cookie";
 import Error from "../_error";
+import Head from "next/head";
+import { CustomButton } from "../../utils/customButton";
 
 export default function detailsPage({
   user,
@@ -44,15 +46,12 @@ export default function detailsPage({
   const { loading, cart } = useSelector((state) => state.cart);
   // const{totalItems,setTotalItems} = useContext(ContextApi)
 
-  const addProduct = (product) => {
+  const addProduct = (product,user) => {
     console.log(cart);
     if (!Cookies.get("token")) {
+      setMsg("Please login first")
       setAlert(true);
     }
-    // else if(product.quantity === 10){
-    //     setAlert(true)
-    //     setMsg("MAximum qauntity to buy is 10")
-    // }
     else {
       dispatch(addToCart(product._id));
       setMsg("Product added to your cart");
@@ -82,10 +81,14 @@ export default function detailsPage({
   }
 
   return (
+   <>
+    <Head>
+    <title>{product.title}</title>
+    </Head>
     <div className={style.main}>
       <Box sx={{ width: "100%" }}>{loading && <LinearProgress />}</Box>
       <Snackbar
-        sx={{ width: "16rem" }}
+        sx={{margin:"2.5rem auto" }}
         open={alert}
         autoHideDuration={2000}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -95,13 +98,13 @@ export default function detailsPage({
           onClose={alertClose}
           variant="filled"
           severity="info"
-          sx={{ width: "100%" }}
+          sx={{ width: "100%" ,margin:"2.5rem auto" }}
         >
           {msg}
         </Alert>
       </Snackbar>
       <Snackbar
-        sx={{ width: "23rem" }}
+        // sx={{margin:"2.5rem auto" }}
         open={success}
         autoHideDuration={2000}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -111,7 +114,7 @@ export default function detailsPage({
           onClose={alertClose}
           variant="filled"
           severity="success"
-          sx={{ width: "100%" }}
+          sx={{ width: "100%" ,margin:"2.5rem auto" }}
         >
           {msg}
         </Alert>
@@ -230,17 +233,14 @@ export default function detailsPage({
               </Button>
             </Paper>
             {adding ? (
-              <Button
+              <CustomButton
                 disabled
-                variant="contained"
                 startIcon={<ShoppingCartOutlinedIcon />}
               >
                 Adding Product ..
-              </Button>
+              </CustomButton>
             ) : (
-              <Button
-                variant="contained"
-                className={style.button}
+              <CustomButton
                 startIcon={<ShoppingCartOutlinedIcon />}
                 onClick={() => {
                   addProduct(product);
@@ -248,16 +248,17 @@ export default function detailsPage({
               >
                 {" "}
                 Add to Cart
-              </Button>
+              </CustomButton>
             )}
           </Container>
         </Grid>
       </Grid>
     </div>
+   </>
   );
 }
 export async function getServerSideProps({ params: { title } }) {
-  const res = await fetch(`http://localhost:3000/api/products/${title}`, {
+  const res = await fetch(`${process.env.BASE_URL}/api/products/${title}`, {
     method: "GET",
   });
   const product = await res.json();

@@ -22,6 +22,8 @@ import {
 import { CLEAR_CART } from "../../redux/constants/cartContant";
 import OrderPlace from "../../Components/OrderPlace";
 import { Box } from "@mui/system";
+import Head from "next/head";
+import { CustomButton } from "../../utils/customButton";
 
 const ITEM_HEIGHT = 80;
 const ITEM_PADDING_TOP = 8;
@@ -41,6 +43,7 @@ function checkout({ user }) {
   const isMatch = useMediaQuery(theme.breakpoints.down("sm"));
   const { cart } = useSelector((state) => state.cart);
   const [orderPage,setOrderPage] = useState(false)
+  const [saveAddress,setSaveAddress] = useState(false)
   const [shippingDetails,setShippingDetails] = useState({
     name:"",
     phone:"",
@@ -78,7 +81,7 @@ function checkout({ user }) {
         "Content-Type":"application/json",
         authorization: Cookies.get("token"),
       },
-      body:JSON.stringify(address)
+      body:JSON.stringify({...address,...shippingDetails})
     })
     api = await api.json();
     if(api.status === true){
@@ -96,7 +99,11 @@ function checkout({ user }) {
   }, []);
 
   return (
-    <div className={style.main}>
+   <>
+   <Head>
+    <title>Cart checkout</title>
+   </Head>
+     <div className={style.main}>
      {orderPage ?  
       <OrderPlace {...{placeOrder,cart}}/>
      :
@@ -109,10 +116,19 @@ function checkout({ user }) {
           <Typography textAlign="center" variant="h6" color="initial">
             Contact Details
           </Typography>
+          <Button
+              // className={style.addressSave}
+                sx={{ margin :"auto",float:"right",textDecoration:"underline" }}
+                disabled={!saveAddress}
+                onClick={()=>setSaveAddress(false)}
+              >
+                Edit
+              </Button>
           <TextField
             label="Name"
             size="small"
             name="name"
+            disabled={saveAddress}
             fullWidth
             required
             margin="normal"
@@ -124,6 +140,7 @@ function checkout({ user }) {
             label="Mobile number"
             size="small"
             name="phone"
+            disabled={saveAddress}
             className={style.phone}
             fullWidth
             required
@@ -139,6 +156,7 @@ function checkout({ user }) {
             label="House No"
             size="small"
             name="houseNo"
+            disabled={saveAddress}
             fullWidth
             required
             margin="normal"
@@ -149,6 +167,7 @@ function checkout({ user }) {
             label="street"
             size="small"
             name="street"
+            disabled={saveAddress}
             fullWidth
             required
             margin="normal"
@@ -159,6 +178,7 @@ function checkout({ user }) {
             label="area"
             size="small"
             name="area"
+            disabled={saveAddress}
             fullWidth
             required
             margin="normal"
@@ -171,6 +191,7 @@ function checkout({ user }) {
             <Select
               label="--Select State--"
               name="state"
+              disabled={saveAddress}
               value={address.state}
               MenuProps={MenuProps}
               onChange={handleAddressInput}
@@ -188,6 +209,7 @@ function checkout({ user }) {
               <Select
                 label="--Select city--"
                 name="city"
+                disabled={saveAddress}
                 value={address.city || ""}
                 MenuProps={MenuProps}
                 onChange={handleAddressInput}
@@ -200,16 +222,15 @@ function checkout({ user }) {
               </Select>
             </FormControl>
           )}
-          <Button
-          id={style.addressSave}
+          <CustomButton
+              className={style.addressSave}
                 sx={{ margin :"auto" }}
+                disabled={saveAddress}
                 variant="contained"
-                className={style.button}
-                disabled={cart && cart.totalItems === 0}
-                onClick={()=>setOrderPage(true)}
+                onClick={()=>setSaveAddress(true)}
               >
                 Deliver to this Address
-              </Button>
+              </CustomButton>
         </Grid>
         <Grid item lg={6} md={6} sm={6} xs={12}>
          <Paper className={style.orderDetails} elevation={3} sx={{width:isMatch ? "100%" :"18rem",padding:"10px",margin:"auto"}} >
@@ -241,9 +262,9 @@ function checkout({ user }) {
                 <Typography variant="h5" color="initial">Cash on Delivery  <CheckCircleOutlineIcon sx={{float:"right",marginTop:"5px",color:"green"}}/></Typography>  
 
             </Box>
-            <Button variant="contained" fullWidth className={style.button} sx={{marginTop:"12px"}}>
+            <CustomButton onClick={placeOrder}  variant="contained" fullWidth sx={{marginTop:"12px"}}>
               Place order
-            </Button>
+            </CustomButton>
           </Paper>
         </Grid>
       </Grid>
@@ -254,6 +275,7 @@ function checkout({ user }) {
 
      }
     </div>
+   </>
   );
 }
 
