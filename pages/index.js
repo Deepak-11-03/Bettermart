@@ -67,7 +67,7 @@ export default function Home({ user }) {
           {categories.map((category,index)=>{
             return(
               <Box key={category} onClick={()=>fetching(category)} className={style.category} >
-              <Image src={images[index]} height={150} width={170} style={{objectFit:"cover"}}/>
+              <Image src={images[index]} alt={index} height={150} width={170} style={{objectFit:"cover"}}/>
                 <Typography variant="body1" >{category}</Typography>
               </Box>
             )

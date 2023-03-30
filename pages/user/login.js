@@ -15,10 +15,10 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 350,
-  height: 550,
+  height: "80%",
   bgcolor: "white",
   boxShadow: 24,
-  p: 3,
+  p: 2.4,
 };
 
 

@@ -12,21 +12,25 @@ const handler =async(req,res)=>{
         const userCart = await cartModel.findOne({userId:token.userId})
         let shippingDetail = {
             name,phone,
-            adderss:{
-                houseNo,area,street,city,pincode,state
+            address:{
+                houseNo:houseNo,
+                area:area,
+                street:street,
+                city:city,
+                pincode:pincode,
+                state:state
             }
         }
+        // console.log(shippingDetail)
         let orderDetails ={}
         orderDetails.userId = token.userId;
         orderDetails.items = userCart.items;
         orderDetails.totalPrice = userCart.totalPrice;
         orderDetails.totalItems  =userCart.totalItems;
         orderDetails.shippingDetails = shippingDetail
-        let order = await orderModel.create(orderDetails);
-        userCart.items = [];
-        userCart.totalPrice=0;
-        userCart.totalItems =0
-        userCart.save();
+        console.log(orderDetails)
+        await orderModel.create(orderDetails);
+        await cartModel.findOneAndUpdate({userId:token.userId},{$set:{items:[],totalItems:0,totalPrice:0}},{new:true})
         return res.status(200).send({status:true,msg:"Order Placed"})
 
     } catch (error) {

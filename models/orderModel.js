@@ -28,6 +28,7 @@ const orderSchema = new mongoose.Schema(
     },
     totalItems: {
       type: Number,
+      required:true
     },
     cancellable: {
       type: Boolean,
@@ -42,18 +43,18 @@ const orderSchema = new mongoose.Schema(
     //   type:Date,
     //   default:new Date().toLocaleString()
     // },
-    shippingDetails:{
-      name:String,
-      phone:Number,
-      address:{
-        houseNo:{type:String,required:true},
-        street:{type:String,required:true},
-        area:{type:String,required:true},
-        city:{type:String,required:true},
-        state:{type:String,required:true},
-        pincode:{type:Number,required:true},
-    },
-    }
+    // shippingDetails:{
+    //   name:String,
+    //   phone:Number,
+    //   address:{
+    //     houseNo:{type:String,required:true},
+    //     street:{type:String,required:true},
+    //     area:{type:String,required:true},
+    //     city:{type:String,required:true},
+    //     state:{type:String,required:true},
+    //     pincode:{type:Number,required:true},
+    // },
+    // }
   },
   { timestamps: true }
 );

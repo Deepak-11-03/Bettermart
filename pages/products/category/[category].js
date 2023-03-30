@@ -40,13 +40,13 @@ export default function Beauty({ data }) {
         spacing={{ xs: 2, md: 3 }}
         sx={{ padding: "15px" }}
       >
-        {data.products.map((post) => {
+        {data.products.map((product) => {
           return (
-            <Grid item xs={6} sm={4} md={3} key={post._id} className={style.products} >
+            <Grid item xs={6} sm={4} md={3} key={product._id} className={style.products} >
               <Paper>
                 <Card
                   sx={{ height: "40vh", justifyContent: "center" }}
-                  onClick={() => detailed(post.title)}
+                  onClick={() => detailed(product.title)}
                 >
                   <CardActionArea sx={{ height: "100%" }}>
                     <CardMedia
@@ -54,17 +54,17 @@ export default function Beauty({ data }) {
                       component="img"
                       height="150px"
                      
-                      image={post.thumbnail}
-                      alt={post.title}
+                      image={product.thumbnail}
+                      alt={product.title}
                     />
                     <CardContent>
                       <Typography variant="subtitle1" color="initial" noWrap={true}>
-                        {post.title}
+                        {product.title}
                       </Typography>
                       <Typography variant="h5" color="initial">
                         <CurrencyRupeeIcon />
                         {Math.abs(
-                          post.price - post.price / post.discountPercentage
+                          product.price - product.price / product.discountPercentage
                         ).toFixed(0)}
                       </Typography>
                       <Chip label="Free Delivery" size="small" />

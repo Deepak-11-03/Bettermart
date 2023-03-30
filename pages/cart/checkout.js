@@ -86,6 +86,7 @@ function checkout({ user }) {
     api = await api.json();
     if(api.status === true){
       dispatch({type:CLEAR_CART})
+      setOrderPage(true)
     }
   }
 
@@ -95,6 +96,9 @@ function checkout({ user }) {
     }
     if (!cart.items) {
       fetchingCart();
+    }
+    if(!cart.items){
+      router.back()
     }
   }, []);
 
@@ -222,6 +226,12 @@ function checkout({ user }) {
               </Select>
             </FormControl>
           )}
+          <TextField
+           name="pincode"
+            value={address.pincode}
+            onChange={handleAddressInput}
+            
+          />
           <CustomButton
               className={style.addressSave}
                 sx={{ margin :"auto" }}

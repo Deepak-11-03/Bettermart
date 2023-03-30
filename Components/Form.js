@@ -16,11 +16,11 @@ const style = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 350,
-    height: 530,
+    height: 400,
     bgcolor: "white",
     border: "1px solid #000",
     boxShadow: 24,
-    p: 3,
+    p: 2,
   };
 
   import Login from './Login'
