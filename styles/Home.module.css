@@ -5,28 +5,28 @@
   margin-top: 14.5vh;
   min-height: 83vh;
 }
-.homeimage{
+.homeimage {
   object-fit: fill;
-   width: 100%;
-   height:90vh; 
+  width: 100%;
+  height: 90vh;
 }
-.homeCategory{
-    width: 100%;
-    min-height: 30rem;
-    padding: 1rem;
-    display: flex;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    gap: 15px;
+.homeCategory {
+  width: 100%;
+  min-height: 30rem;
+  padding: 1rem;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  gap: 15px;
 }
 
 .searchbarmid {
@@ -112,7 +112,7 @@
   display: flex;
   flex-direction: column;
 }
-.ordersummery{
+.ordersummery {
   margin: 1rem;
   background: lightyellow;
   min-width: 18rem;
@@ -120,19 +120,19 @@
   max-height: 11rem;
   z-index: 10;
 }
-.cartItem{
+.cartItem {
   display: flex;
   gap: 20px;
   margin: 8px;
   padding: 8px;
   border: 0.5px solid #dee2e6;
 }
-.cartWithoutLogin{
+.cartWithoutLogin {
   width: 300px;
-    height: 300px;
-    margin: auto;
-    margin-top: 8rem;
-    text-align: center;
+  height: 300px;
+  margin: auto;
+  margin-top: 8rem;
+  text-align: center;
 }
 .menuList {
   display: none;
@@ -198,6 +198,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1rem;
 }
 
 @media screen and (max-width: 900px) {
@@ -206,11 +207,11 @@
     margin-top: 6vh;
     min-height: 83vh;
   }
-  .homeimage{
+  .homeimage {
     height: 80vh;
   }
   .heading {
-    top: 20rem; 
+    top: 20rem;
   }
 }
 @media screen and (max-width: 700px) {
@@ -249,10 +250,10 @@
     display: flex;
     justify-content: space-between;
   }
-  .homeCategory{
+  .homeCategory {
     width: 100%;
     min-height: 30rem;
-    padding: .5rem;
+    padding: 0.5rem;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -283,11 +284,11 @@
     color: white;
     background-color: #323131;
   }
-  .footerLink{
+  .footerLink {
     width: 10rem;
     font-size: 13px;
   }
-  .gridItem{
+  .gridItem {
     padding: 8px;
     display: flex;
     flex-direction: row;
