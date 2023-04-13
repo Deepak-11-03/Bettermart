@@ -21,7 +21,6 @@ const handler =async(req,res)=>{
                 state:state
             }
         }
-        // console.log(shippingDetail)
         let orderDetails ={}
         orderDetails.userId = token.userId;
         orderDetails.items = userCart.items;
@@ -39,7 +38,11 @@ const handler =async(req,res)=>{
    }
    if(req.method === "GET"){
     try {
-        console.log(req)
+        let authToken   =   req.headers.authorization.split('=')[1]
+        const token = jwt.verify(authToken , process.env.Jwt_Secret_key);
+      
+        const userOrders = await orderModel.find({userId:token.userId}).populate('items.productId').select({_id:0,userId:0}).sort({createdAt:-1})
+        return res.status(200).send({status:true,orders:userOrders})
     } catch (error) {
         return res.status(500).send({ msg: error.message });
     }

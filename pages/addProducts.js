@@ -1,16 +1,7 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button,TextField, Typography } from '@mui/material';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import style from '../styles/Home.module.css'
-
-const categoryList =[
-  "fashion",
-  "electronics",
-  "Home & Decor",
-  "mobile",
-  "appliances",
-  "beauty"
-]
 
 export default  function addProducts() {
   const {

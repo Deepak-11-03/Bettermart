@@ -10,9 +10,6 @@ import {
   InputLabel,
   OutlinedInput,
   FormHelperText,
-  Snackbar,
-  Alert,
-  CircularProgress,
 } from "@mui/material";
 import styleshit from "../styles/Home.module.css";
 import Visibility from "@mui/icons-material/Visibility";
@@ -163,11 +160,11 @@ export default function Signup({setMsg,setAlert,setSuccess}) {
             onChange={handleInput}
             {...register("password", {
               required: true,
-              // pattern: {
-              //   value: 123,
-              //   message:
-              //     "A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required.",
-              // },
+              pattern: {
+                value: pass,
+                message:
+                  "A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required.",
+              },
             })}
             error={Boolean(errors.password)}
           >

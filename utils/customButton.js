@@ -7,4 +7,8 @@ export const CustomButton = styled(Button)({
     "&:hover": {
         backgroundColor: "#b922fa",
       },
+      "&:disabled":{
+        backgroundColor:"#b7b7b7",
+        color:"grey"
+      }
 })

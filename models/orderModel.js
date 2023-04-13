@@ -39,22 +39,22 @@ const orderSchema = new mongoose.Schema(
       default: "pending",
       enum: ["pending", "completed", "cancled"],
     },
-    // orderedAt:{
-    //   type:Date,
-    //   default:new Date().toLocaleString()
-    // },
-    // shippingDetails:{
-    //   name:String,
-    //   phone:Number,
-    //   address:{
-    //     houseNo:{type:String,required:true},
-    //     street:{type:String,required:true},
-    //     area:{type:String,required:true},
-    //     city:{type:String,required:true},
-    //     state:{type:String,required:true},
-    //     pincode:{type:Number,required:true},
-    // },
-    // }
+    orderedAt:{
+      type:String,
+      default:new Date().toLocaleString()
+    },
+    shippingDetails:{
+      name:String,
+      phone:Number,
+      address:{
+        houseNo:{type:String,required:true},
+        street:{type:String,required:true},
+        area:{type:String,required:true},
+        city:{type:String,required:true},
+        state:{type:String,required:true},
+        pincode:{type:Number,required:true},
+    },
+    }
   },
   { timestamps: true }
 );

@@ -58,12 +58,11 @@ export default function Home({ user }) {
             className={style.homeimage}
             src="/image1.jpg"
             alt="Photo by Ksenia Chernaya"
-            style={{ objectFit: "fill", width: "100%" }}
             width={1000}
             height={700}
           />
         </Box>
-        <Box sx={{ width: "100%", minHeight: "30rem", padding: "1rem" ,display:"flex",flexDirection:"row",flexWrap:"wrap",justifyContent:"center" ,gap:"15px"}}>
+        <Box  className={style.homeCategory}>
           {categories.map((category,index)=>{
             return(
               <Box key={category} onClick={()=>fetching(category)} className={style.category} >

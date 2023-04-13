@@ -29,18 +29,17 @@ if(data.status === false){
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
-          // columns={{ xs: 4, sm: 8, md: 12 }}
-          sx={{padding:"15px"}}
+          sx={{padding:"10px 25px 20px 10px"}}
         >
          {data.products.map((product) => {
           return(
-          <Grid  item xs={6} sm={4} md={3} key={product._id}  className={style.products} >
-          <Paper>
+          <Grid  item xs={6} sm={3} md={2} key={product._id}  className={style.products} >
+          <Paper >
             <Card sx={{height:"40vh",justifyContent:"center"}} onClick={()=>detailed(product.title)} >
               <CardActionArea sx={{height:"100%"}}>
-                <CardMedia sx={{objectFit:"contain"}} component="img"
-          height="150px" image={product.thumbnail} alt={product.title}/>
-          <CardContent>
+                <CardMedia sx={{objectFit:"contain",height:"8rem"}} component="img"
+           image={product.thumbnail} alt={product.title}/>
+          <CardContent sx={{padding:"15px 0 0 8px"}} >
           
             <Typography variant="subtitle1" color="initial" noWrap={true}>{product.title}</Typography>
             <Typography variant="h5" color="initial"><CurrencyRupeeIcon/>{Math.abs(product.price-(product.price/product.discountPercentage)).toFixed(0)}</Typography>          

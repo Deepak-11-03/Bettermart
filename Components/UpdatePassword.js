@@ -1,22 +1,15 @@
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import style from "../styles/Home.module.css";
 import { useState } from "react";
-import PasswordChange from "./PasswordChange";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 import { pass } from "../utils/validater";
 import { CustomButton } from "../utils/customButton";
 
 function VerifyOtp(props) {
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm();
   const { setMsg, setSuccess, setAlert, setForgot, emailRef } = props;
+  const {register,handleSubmit,getValues,formState:{ errors }} = useForm();
+  
   const [otpToken, setOtpToken] = useState(0);
   const [otpVerified, setOtpVerified] = useState(false);
   const [user, setUser] = useState({
@@ -109,10 +102,10 @@ function VerifyOtp(props) {
           onChange={handleInput}
           {...register("password", {
             required: true,
-            // pattern:{
-            //   value:pass,
-            //   message:"A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required."
-            // }
+            pattern:{
+              value:pass,
+              message:"A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required."
+            }
           })}
           error={Boolean(errors.password)}
           helperText={errors.password?.message}
@@ -136,7 +129,7 @@ function VerifyOtp(props) {
         />
         <CustomButton
           disabled={!otpVerified}
-          style={{backgroundColor:!otpVerified && "#b7b7b7",color:!otpVerified && "grey",marginLeft:"36%"}}
+          style={{marginLeft:"36%"}}
           type="submit"
         >
           Submit

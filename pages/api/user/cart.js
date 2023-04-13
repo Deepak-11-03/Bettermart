@@ -61,7 +61,7 @@ else if(req.method === 'GET'){
     if(!user){
       return res.status(401).send({msg:"something wrong"})
     }
-    let cart = await cartModel.findOne({userId:user.userId}).populate('items.productId').select({_id:0,userId:0});
+    let cart = await cartModel.findOne({userId:user.userId}).populate('items.productId').select({_id:0});
     return res.status(200).send({status:true,cart:cart });
   } catch (error) {
     return res.status(500).send({ message: error.message });

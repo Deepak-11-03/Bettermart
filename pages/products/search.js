@@ -45,48 +45,23 @@ function search() {
         <Grid container spacing={{ xs: 2, md: 3 }} sx={{ padding: "15px" }}>
           {searchData.map((product) => {
             return (
-              <Grid
-                item
-                xs={6}
-                sm={4}
-                md={3}
-                key={product._id}
-                className={style.products}
-              >
-                <Paper>
-                  <Card
-                    sx={{ height: "40vh", justifyContent: "center" }}
-                    onClick={() => detailed(product.title)}
-                  >
-                    <CardActionArea sx={{ height: "100%" }}>
-                      <CardMedia
-                        sx={{ objectFit: "contain", width: "100%" }}
-                        component="img"
-                        height="150px"
-                        image={product.thumbnail}
-                        alt={product.title}
-                      />
-                      <CardContent>
-                        <Typography
-                          variant="subtitle1"
-                          color="initial"
-                          noWrap={true}
-                        >
-                          {product.title}
-                        </Typography>
-                        <Typography variant="h5" color="initial">
-                          <CurrencyRupeeIcon />
-                          {Math.abs(
-                            product.price -
-                              product.price / product.discountPercentage
-                          ).toFixed(0)}
-                        </Typography>
-                        <Chip label="Free Delivery" size="small" />
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Paper>
-              </Grid>
+              <Grid  item xs={6} sm={4} md={3} key={product._id}  className={style.products} >
+          <Paper>
+            <Card sx={{height:"40vh",justifyContent:"center"}} onClick={()=>detailed(product.title)} >
+              <CardActionArea sx={{height:"100%"}}>
+                <CardMedia sx={{objectFit:"contain",height:"8rem"}} component="img"
+           image={product.thumbnail} alt={product.title}/>
+          <CardContent>
+          
+            <Typography variant="subtitle1" color="initial" noWrap={true}>{product.title}</Typography>
+            <Typography variant="h5" color="initial"><CurrencyRupeeIcon/>{Math.abs(product.price-(product.price/product.discountPercentage)).toFixed(0)}</Typography>          
+            <Chip label="Free Delivery" size="small" />
+          </CardContent>
+          
+              </CardActionArea>
+            </Card>
+            </Paper>
+          </Grid>
             );
           })}
         </Grid>

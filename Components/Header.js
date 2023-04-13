@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import style from "../styles/Home.module.css";
 import Image from "next/image";
-import Form from "./Form";
 import Link from "next/link";
-// import {Link} from 'next'
 import cookie from "js-cookie";
 import {
   Box,
@@ -12,25 +10,18 @@ import {
   Toolbar,
   Divider,
   IconButton,
-  MenuItem,
-  Paper,
   List,
   ListItem,
   ListItemText,
   Badge,
-  Menu,
-  TextField,
   useMediaQuery,
   useTheme,
-  InputAdornment,
   InputBase,
   ListItemButton,
   ListItemIcon,
-  Button,
 } from "@mui/material";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -99,10 +90,16 @@ export default function Header({ user, setDrawer }) {
     router.push(`/products/search?query=${search}`)
   };
 
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      productSearch()
+    }
+  }
+
   return (
     <>
       <Box sx={{ width: "100vw" }}>
-        <AppBar position="fixed" sx={{ background: "white" }}>
+        <AppBar position="fixed" sx={{ background: "white",   }}>
           <Toolbar
             sx={{
               display: "flex",
@@ -133,6 +130,7 @@ export default function Header({ user, setDrawer }) {
                   inputProps={{ "aria-label": "search product" }}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={handleKeyDown}
                 />
                 <IconButton
                   type="button"
@@ -205,14 +203,15 @@ export default function Header({ user, setDrawer }) {
             </Toolbar>
           </Toolbar>
           {/* search bar small screen */}
-          <Divider />
-          <Box className={style.searchbarsmall}>
+          <Divider/>
+          {isCurrentPath !== "/user/login" && <Box className={style.searchbarsmall}>
             <InputBase
               sx={{ width: "100%" }}
               placeholder="Search product"
               inputProps={{ "aria-label": "search product" }}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <IconButton
               type="button"
@@ -222,11 +221,11 @@ export default function Header({ user, setDrawer }) {
             >
               <SearchIcon />
             </IconButton>
-          </Box>
+          </Box>}
           {isCurrentPath !== "/user/login" && (
             <Toolbar
               variant="dense"
-              sx={{ display: isMatch ? "none" : "block" }}
+              sx={{ display: isMatch ? "none" : "block" , minHeight:0 }}
             >
               {/* links */}
               <List

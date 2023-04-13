@@ -5,6 +5,7 @@ import style from "../styles/Home.module.css";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomButton } from "../utils/customButton";
+import { email } from "../utils/validater";
 
 const styled = {
   position: "absolute",
@@ -84,7 +85,7 @@ function Forgot(props) {
               {...register('email',{
                 required:true,
                 pattern:{
-                  value:/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,20}$/,
+                  value:email,
                   message:"Enter valid email"
                 }
               })}
@@ -93,7 +94,6 @@ function Forgot(props) {
             />
             <CustomButton
             type="submit"
-              // onClick={() => verifyOtpPage(true)}
             >
               Next
             </CustomButton>

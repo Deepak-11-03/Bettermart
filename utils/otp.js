@@ -16,8 +16,8 @@ const otpSender =async(otp, firstName, email)=> {
         from: `'BetterMart' <process.env.USER>`,
         to: email,
         subject: "Verify your email",
-        html: `<h3>Hlo ,${firstName}! Thanks for registering on our site </h3>
-                        <h4>Please verify your otp ${otp}  to continue </h4>`,
+        html: `<h3>Hlo ,${firstName} </h3>
+                        <h4>Please verify your otp ${otp} to change your password</h4>`,
       });
       if(success){
         return true

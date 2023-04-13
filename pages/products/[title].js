@@ -1,6 +1,5 @@
 import {
   Box,
-  Card,
   Paper,
   CardMedia,
   Container,
@@ -12,8 +11,6 @@ import {
   TextField,
   Snackbar,
   Alert,
-  Backdrop,
-  CircularProgress,
   LinearProgress,
   Button,
 } from "@mui/material";
@@ -29,12 +26,8 @@ import Error from "../_error";
 import Head from "next/head";
 import { CustomButton } from "../../utils/customButton";
 
-export default function detailsPage({
-  user,
-  product,
-  cartItems,
-  setCartItems,
-}) {
+export default function detailsPage({product}) {
+
   const [image, setImage] = useState("");
   const [msg, setMsg] = useState("");
   const [alert, setAlert] = useState(false);
@@ -44,7 +37,6 @@ export default function detailsPage({
   const [invalid, setInvalid] = useState(false);
   const dispatch = useDispatch();
   const { loading, cart } = useSelector((state) => state.cart);
-  // const{totalItems,setTotalItems} = useContext(ContextApi)
 
   const addProduct = (product,user) => {
     console.log(cart);

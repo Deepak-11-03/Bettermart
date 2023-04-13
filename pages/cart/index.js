@@ -1,4 +1,3 @@
-"use Client";
 import {
   Box,
   Card,
@@ -12,8 +11,6 @@ import {
   LinearProgress,
   Snackbar,
   Alert,
-  CardHeader,
-  Avatar,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -56,7 +53,7 @@ export default function cart({ user }) {
       setMsg("Cart product updated");
       setSuccess(true);
     }
-    localStorage.setItem("cart", JSON.stringify(cart));
+    // localStorage.setItem("cart", JSON.stringify(cart));
   }
   const [alert, setAlert] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -95,18 +92,7 @@ export default function cart({ user }) {
       {user ? (
         <Card className={isMatch ? style.cartmid : style.cartFull}>
           <Box
-            sx={{
-              // padding: "6px",
-              margin: "1rem",
-              background: "lightyellow",
-              minWidth: "18rem",
-              backgroundColor: "white",
-              maxHeight: "10rem",
-              position: "sticky",
-              zIndex: "10",
-              top: "0px",
-              right: "0px",
-            }}
+          className={style.ordersummery}
           >
             <Typography variant="h5" color="initial">
               Order Summery
@@ -136,13 +122,7 @@ export default function cart({ user }) {
               cart.items.map((item, index) => {
                 return (
                   <Paper
-                    sx={{
-                      display: "flex",
-                      gap: "20px",
-                      margin: "8px",
-                      padding: "8px",
-                      border: ".5px solid #dee2e6",
-                    }}
+                  className={style.cartItem} 
                     key={index}
                   >
                     <img
@@ -196,7 +176,7 @@ export default function cart({ user }) {
                   </Paper>
                 );
               })}
-            {cart && cart.totalItems === 0 || !cart && (
+            {cart && cart.totalItems === 0  && (
               <Typography textAlign="center" variant="h4">
                 Please add items
               </Typography>
@@ -205,13 +185,7 @@ export default function cart({ user }) {
         </Card>
       ) : (
         <Box
-          sx={{
-            width: 300,
-            height: 300,
-            margin: "auto",
-            marginTop: "8rem",
-            textAlign: "center",
-          }}
+        className={style.cartWithoutLogin}
         >
           <Typography variant="h4">Please login</Typography>
           <Typography variant="h4">To see your cart</Typography>

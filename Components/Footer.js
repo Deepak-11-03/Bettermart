@@ -1,23 +1,20 @@
-import { Box, Grid, Typography, IconButton, Button } from "@mui/material";
+import { Box,Typography, IconButton } from "@mui/material";
 import React from "react";
 import style from "../styles/Home.module.css";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 
 const infoPages =["about-us","contact-us","privacy-policy"];
 
 function Footer() {
-  const router = useRouter()
-
 
   return (
     <Box className={style.footer}>
       <div>
         <div className={style.gridItem} >
-          <Typography variant="caption">Follow me :</Typography>
+          <Typography variant="caption">Follow on:</Typography>
           <IconButton href="https://github.com/Deepak-11-03" target="_blank">
             <GitHubIcon />
           </IconButton>
