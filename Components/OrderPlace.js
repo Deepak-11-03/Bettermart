@@ -13,7 +13,7 @@ function OrderPlace(props) {
 
   return (
     <div className={style.main}>
-      <Container maxWidth="md" className={style.checkout}>
+      <Container sx={{display:"flex",textAlign:"center"}} maxWidth="md" className={style.checkout}>
         <CheckCircleOutlineIcon
           sx={{ fontSize: "6rem", color: "blueviolet" }}
         />

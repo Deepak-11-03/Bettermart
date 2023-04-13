@@ -220,6 +220,13 @@
   .heading {
     top: 16rem;
   }
+  .checkout {
+    padding-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
 }
 @media screen and (max-width: 500px) {
   .main {
