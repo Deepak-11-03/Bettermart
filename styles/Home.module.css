@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap"); */
+
 
 .main {
   width: 100vw;
@@ -28,6 +29,11 @@
   justify-content: center;
   gap: 15px;
 }
+#item{
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+}
 
 .searchbarmid {
   width: 50%;
@@ -43,7 +49,7 @@
 }
 
 .category {
-  width: 12rem;
+  width: 13rem;
   height: 12rem;
   cursor: pointer;
   text-align: center;
@@ -82,12 +88,7 @@
   justify-content: center;
   z-index: 5;
 }
-/* .menu li a span{
-    font-size: 2rem;
-  } */
-/* .menuItem{
-  font-size: 10px;
-} */
+
 .sidebar {
   display: none;
 }
@@ -114,18 +115,30 @@
 }
 .ordersummery {
   margin: 1rem;
-  background: lightyellow;
+  background: rgb(255, 255, 203);
   min-width: 18rem;
   background-color: white;
   max-height: 11rem;
   z-index: 10;
+}
+.cartContainer{
+  width: 100%;
+  padding: 10px;
+  padding-top: 4rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  align-items: center;
 }
 .cartItem {
   display: flex;
   gap: 20px;
   margin: 8px;
   padding: 8px;
-  border: 0.5px solid #dee2e6;
+  border: 0.5px solid var(--main);
 }
 .cartWithoutLogin {
   width: 300px;
@@ -180,7 +193,7 @@
   position: absolute;
   top: 24rem;
   text-align: center;
-  color: aliceblue;
+  color: white;
   /* font-family: 'Playfair Display', serif; */
 }
 .addressSave {
@@ -204,7 +217,7 @@
 @media screen and (max-width: 900px) {
   .main {
     width: 100vw;
-    margin-top: 6vh;
+    margin-top: 8vh;
     min-height: 83vh;
   }
   .homeimage {
@@ -253,7 +266,7 @@
   .homeCategory {
     width: 100%;
     min-height: 30rem;
-    padding: 0.5rem;
+    padding: 2rem 0.5rem;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -269,7 +282,10 @@
     -ms-flex-pack: center;
     -webkit-justify-content: center;
     justify-content: center;
-    gap: 5px;
+    gap: 28px;
+  }
+  #item{
+    height: 31vh;
   }
   .footer {
     height: max-content;

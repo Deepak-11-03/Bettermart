@@ -14,7 +14,6 @@ class MyDocument extends Document {
           <meta name="keywords" content="better mart, online shopping, sustainability, ethical sourcing, groceries, household items, personal care, eco-friendly" />
           <meta name="author" content="Better Mart" />
           <meta name="robots" content="index, follow" />
-
           {/* OpenGraph meta tags for social media */}
           <meta property="og:title" content="Better Mart - Online Shopping for Everyday Needs" />
           <meta property="og:description" content="Better Mart is an online marketplace for everyday essentials, with a focus on sustainability and ethical sourcing. Shop now for groceries, household items, personal care products, and more." />

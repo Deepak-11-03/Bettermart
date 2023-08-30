@@ -5,7 +5,8 @@ const otpSender =async(otp, firstName, email)=> {
       const transporter = nodemailer.createTransport({
         host: process.env.HOST,
         service: "gmail",
-        port: 587,
+        port: process.env.EMAIL_PORT,
+        secure:false,
         auth: {
           user: process.env.USER,
           pass: process.env.PASS,

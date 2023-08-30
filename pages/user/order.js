@@ -23,13 +23,13 @@ function order({ orders }) {
         <title>My orders</title>
       </Head>
       <div className={style.main}>
-        <Container maxWidth="md">
-          {orders.map((order, index) => {
+        <Container maxWidth="md" sx={{padding:"5px"}} >
+          {orders.map((items, index) => {
             return (
               <Box key={index}>
-                {order.items.map((item) => {
+                {items.items.map((item,index) => {
                   return (
-                    <Box key={item}  sx={{
+                    <Box key={index}  sx={{
                       display: "flex",
                       gap: "20px",
                       margin: "8px",
@@ -38,8 +38,8 @@ function order({ orders }) {
                     }}>
                       <img
                         style={{
-                          width: "120px",
-                          height: "100px",
+                          width: "7rem",
+                          height: "80px",
                           padding: "3px",
                           cursor: "pointer",
                         }}
@@ -47,14 +47,18 @@ function order({ orders }) {
                         alt="Paella dish"
                         // onClick={() => detailed(item.productId.title)}
                       />
-                      <Divider orientation="horizontal" sx={{borderWidth:"1px"}}/>
-                      <Typography variant="h6" >{item.productId.title}</Typography>
+                      <Box sx={{width:"100%"}}>
+                      <Typography variant="h6"  noWrap={false} >{item.productId.title}</Typography>
+                      <Typography variant="caption"  noWrap={true} >{item.quantity}</Typography>
+                      <Typography variant="caption" sx={{float:"right"}} >{items.orderedAt.split(',')[0]}</Typography>
+                      </Box>
                     </Box>
                   );
                 })}
               </Box>
             );
           })}
+          {orders.length===0 && <Typography variant="h4" sx={{textAlign:"center",paddingTop:"6rem"}}>No order Found</Typography> }
         </Container>
       </div>
     </>

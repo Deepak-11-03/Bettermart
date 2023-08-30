@@ -23,6 +23,7 @@ export default function Login(props) {
   const router = useRouter();
   const { setAlert, setMsg, setSuccess,userCart,setForgot} = props
   const {register,handleSubmit,reset,formState:{ errors }} = useForm();
+  const [loginDisable ,setLoginDisable] = useState(false)
 
   const [user, setUser] = useState({
     email: "",
@@ -36,6 +37,7 @@ export default function Login(props) {
   };
 
   const onSubmit = async (data) => {
+    setLoginDisable(true)
     let api = await fetch("/api/user/login", {
       method: "POST",
       headers: {
@@ -111,7 +113,7 @@ export default function Login(props) {
           />
           <FormHelperText>{errors.password?.message}</FormHelperText>
         </FormControl>
-        <CustomButton type="submit" style={{ marginTop: "10px" }}>
+        <CustomButton disabled={loginDisable} type="submit" style={{ marginTop: "10px" }}>
           Login
         </CustomButton>
       </form>

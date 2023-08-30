@@ -8,9 +8,22 @@ import OrderPlace from "../../Components/OrderPlace";
 import { states, cities } from "../../utils/stateAndCity";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { Box } from "@mui/system";
-import {FormControl,InputLabel, MenuItem,Select,TextField,Typography,Grid,Button,Paper,useTheme,useMediaQuery} from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  Grid,
+  Button,
+  Paper,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { CustomButton } from "../../utils/customButton";
 import { getCart } from "../../redux/actions/cartAction";
+import Payment from "../../Components/PaymentIntegration";
 import { CLEAR_CART } from "../../redux/constants/cartContant";
 
 const ITEM_HEIGHT = 80;
@@ -24,8 +37,6 @@ const MenuProps = {
   },
 };
 
-
-
 function checkout({ user }) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -33,6 +44,7 @@ function checkout({ user }) {
   const isMatch = useMediaQuery(theme.breakpoints.down("sm"));
   const { cart } = useSelector((state) => state.cart);
   const [orderPage, setOrderPage] = useState(false);
+  const [form, setForm] = useState(false);
   const [saveAddress, setSaveAddress] = useState(false);
   const [shippingDetails, setShippingDetails] = useState({
     name: "",
@@ -87,17 +99,36 @@ function checkout({ user }) {
     }
   }, []);
 
+  if (cart.items && cart.items.length == 0) {
+    return (
+      <>
+        <Head>
+          <title>Cart checkout</title>
+        </Head>
+        <div className={style.main}>
+          <Typography variant="h1">Nothing to see here</Typography>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
         <title>Cart checkout</title>
       </Head>
       <div className={style.main}>
-        {orderPage ? (
-          <OrderPlace {...{ placeOrder, cart }} />
+        {form ? (
+          <Payment
+            amount={cart.totalPrice}
+            name={shippingDetails.name}
+            contact={shippingDetails.phone}
+            placeOrder={placeOrder}
+            setForm={setForm}
+          />
         ) : (
           <>
-            {cart && cart.items && (
+            {cart && cart.items && cart.items.length !== 0 && (
               <>
                 <Grid container spacing={2} padding={4}>
                   <Grid item lg={6} md={6} sm={6} xs={12}>
@@ -292,7 +323,9 @@ function checkout({ user }) {
                         </Typography>
                       </Box>
                       <CustomButton
-                        onClick={placeOrder}
+                        id="payment-btn"
+                        disabled={!saveAddress}
+                        onClick={() => setForm(true)}
                         variant="contained"
                         fullWidth
                         sx={{ marginTop: "12px" }}

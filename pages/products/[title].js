@@ -206,7 +206,7 @@ export default function detailsPage({product}) {
                 product.price - product.price / product.discountPercentage
               ).toFixed(0)}
             </Typography>
-            <Paper elevation={0}>
+            {/* <Paper elevation={0}>
               <TextField
                 type="number"
                 label="Pincode"
@@ -223,7 +223,7 @@ export default function detailsPage({product}) {
               >
                 Check
               </Button>
-            </Paper>
+            </Paper> */}
             {adding ? (
               <CustomButton
                 disabled

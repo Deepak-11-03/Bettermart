@@ -30,7 +30,10 @@ export default function cart({ user }) {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useDispatch();
-
+  const [alert, setAlert] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [msg, setMsg] = useState("");
+  
   const { cart, loading } = useSelector((state) => state.cart);
   const fetchingCart = () => {
     dispatch(getCart());
@@ -55,9 +58,6 @@ export default function cart({ user }) {
     }
     // localStorage.setItem("cart", JSON.stringify(cart));
   }
-  const [alert, setAlert] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [msg, setMsg] = useState("");
   const alertClose = () => {
     setAlert(false);
     setSuccess(false);
@@ -91,7 +91,9 @@ export default function cart({ user }) {
       </Snackbar>
       {user ? (
         <Card className={isMatch ? style.cartmid : style.cartFull}>
-          <Box
+          {cart && cart.items && cart.items.length !==0 
+          &&
+            <Box
           className={style.ordersummery}
           >
             <Typography variant="h5" color="initial">
@@ -115,7 +117,10 @@ export default function cart({ user }) {
               </CustomButton>
             </CardContent>
           </Box>
-          <Box sx={{ width: "100%", padding: "10px" }}>
+          
+          
+          }
+          <Box sx={{ width: "100%", padding: "10px" }} className={cart && cart.totalItems === 0  && style.cartContainer}>
             {/* <h2>items here</h2> */}
             {cart &&
               cart.items &&
@@ -173,13 +178,17 @@ export default function cart({ user }) {
                         Remove
                       </Button>
                     </Box>
+                   
                   </Paper>
                 );
               })}
             {cart && cart.totalItems === 0  && (
-              <Typography textAlign="center" variant="h4">
+             <>
+             <Typography textAlign="center" variant="h4">
                 Please add items
               </Typography>
+              <img src="./basket.png" alt="cart"  style={{height:"20rem"}} />
+             </>
             )}
           </Box>
         </Card>
